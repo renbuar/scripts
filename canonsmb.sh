@@ -31,4 +31,6 @@ PageLimit 0
 KLimit 0
 EOF
 sudo cp printers.conf /etc/cups
+rm -r /tmp/linux-capt-drv-v271-uken/
+rm /tmp/linux-capt-drv-v271-uken.tar.gz
 sudo service cups restart
