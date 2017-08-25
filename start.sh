@@ -52,7 +52,7 @@ sudo make install
 ##################################################################
 cd /tmp
 mkdir -p pulseaudio
-sudo apt-get install dpkg-dev
+sudo apt-get install -y dpkg-dev
 sudo apt-get source pulseaudio
 sudo apt-get build-dep pulseaudio
 cd /tmp/pulseaudio-10.0
