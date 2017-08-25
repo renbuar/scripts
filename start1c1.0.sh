@@ -12,3 +12,4 @@ sudo dpkg -i 1c*.deb
 sudo apt -f -y install
 sudo chown -R usr1cv8:grp1cv8 /opt/1C
 sudo echo -e "pass\npass\n" | passwd usr1cv8
+rm -r /tmp/1ctmp
