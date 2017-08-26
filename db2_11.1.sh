@@ -48,7 +48,7 @@ sudo cp db2auto.service /lib/systemd/system
 sudo systemctl daemon-reload
 sudo systemctl enable db2auto.service
 sudo systemctl start db2auto.service
-sudo systemctl status db2auto.service
+#sudo systemctl status db2auto.service
 #ps -eaf|grep -i db2sysc
 # установка 1с
 mkdir -p /tmp/1ctmp
@@ -68,7 +68,7 @@ sudo echo -e "pass\npass\n" | sudo passwd usr1cv8
 sudo usermod -aG db2iadm1 usr1cv8
 sudo echo ". /home/db2inst1/sqllib/db2profile" >> /home/usr1cv8/.profile
 sudo service srv1cv83 start
-sudo service srv1cv83 status
+#sudo service srv1cv83 status
 mkdir /tmp/hasp
 cd /tmp/hasp
 wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd-modules_7.60-eter1debian_amd64.deb
@@ -76,5 +76,5 @@ wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd_7.
 sudo dpkg -i *.deb
 sudo apt-get install -f -y
 sudo service haspd start
-sudo service haspd status
+#sudo service haspd status
 #sudo shutdown -r now
