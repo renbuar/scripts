@@ -2,3 +2,8 @@
 include /etc/ld.so.conf.d/*.conf
 /opt/ibm/db2/V11.1/lib32
 /opt/ibm/db2/V11.1/lib64
+
+sudo echo ". /home/db2inst1/sqllib/db2profile" >> /home/usr1cv8/.profile
+sudo echo "LD_LIBRARY_PATH=/opt/ibm/db2/V11.1/lib32:/opt/ibm/db2/V11.1/lib64" >> /home/usr1cv8/.profile
+sudo echo "export  LD_LIBRARY_PATH" >> /home/usr1cv8/.profile
+sudo service srv1cv83 start
