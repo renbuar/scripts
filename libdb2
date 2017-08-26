@@ -1,0 +1,4 @@
+# https://its.1c.ru/db/metod8dev#content:5820:hdoc
+include /etc/ld.so.conf.d/*.conf
+/opt/ibm/db2/V11.1/lib32
+/opt/ibm/db2/V11.1/lib64
