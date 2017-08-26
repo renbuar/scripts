@@ -30,7 +30,8 @@ sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2set DB2_WORKLOAD=1C
 #sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2stop
 sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2start
 # скрипт автозапуска
-sudo cat > /usr/local/bin/db2autostart.sh <<EOF
+cd /tmp
+cat > db2autostart.sh <<EOF
 #! /bin/sh
 case "$1" in
   start)
@@ -46,8 +47,9 @@ case "$1" in
 esac
 exit 0
 EOF
-sudo chmod +x /usr/local/bin/db2autostart.sh
-sudo cat > /lib/systemd/system/db2auto.service <<EOF
+sudo chmod +x db2autostart.sh
+sudo cp db2autostart.sh /usr/local/bin/
+cat > db2auto.service <<EOF
 [Unit]
 Description = db2 db2auto daemon
 
@@ -59,7 +61,8 @@ ExecStop =/usr/local/bin/db2autostart.sh stop
 [Install]
 WantedBy=multi-user.target
 EOF
-sudo chmod +x /lib/systemd/system/db2auto.service
+sudo chmod +x db2auto.service
+sudo cp db2auto.service /lib/systemd/system
 sudo systemctl daemon-reload
 sudo systemctl enable db2auto.service
 sudo systemctl status db2auto.service
