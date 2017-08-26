@@ -48,4 +48,24 @@ sudo systemctl daemon-reload
 sudo systemctl enable db2auto.service
 sudo systemctl start db2auto.service
 sudo systemctl status db2auto.service
+#ps -eaf|grep -i db2sysc
+# установка 1с
+mkdir -p /tmp/1ctmp
+cd /tmp/1ctmp
+sudo apt install -y unixodbc libgsf-1-114
+wget  http://ftp.ru.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
+sudo  apt install -y xfonts-utils cabextract
+sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
+cp /home/user/Загрузки/deb64.tar.gz /tmp/1ctmp
+cp /home/user/Загрузки/client.deb64.tar.gz /tmp/1ctmp
+tar xvzf deb64.tar.gz
+tar xvzf client.deb64.tar.gz
+sudo dpkg -i 1c*.deb
+sudo apt -f -y install
+sudo chown -R usr1cv8:grp1cv8 /opt/1C
+sudo echo -e "pass\npass\n" | passwd usr1cv8
+sudo usermod -aG db2iadm1 usr1cv8
+sudo echo ". /home/db2inst1/sqllib/db2profile" >> /home/usr1cv8/.profile
+sudo service srv1cv83 start
+sudo service srv1cv83 status
 #sudo shutdown -r now
