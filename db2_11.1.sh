@@ -25,4 +25,7 @@ sudo ./db2_install -f sysreq
 #Не указан сервер SMTP уведомлений. Пока он не задан, нельзя послать уведомления
 cd /opt/ibm/db2/V11.1/instance
 sudo ./db2icrt -u db2fenc1 db2inst1
-sudo echo -e "pass\n" | su - db2inst1
+sudo ./db2iauto -on db2inst1
+sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2set DB2_WORKLOAD=1C
+sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2stop
+sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2start
