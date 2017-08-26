@@ -74,7 +74,7 @@ cd /tmp/hasp
 wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd-modules_7.60-eter1debian_amd64.deb
 wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd_7.60-eter1debian_amd64.deb
 sudo dpkg -i *.deb
-sudo apt-get install -f
+sudo apt-get install -f -y
 sudo service haspd start
 sudo service haspd status
 #sudo shutdown -r now
