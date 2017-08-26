@@ -1,3 +1,4 @@
+#!/bin/sh
 sudo groupadd db2iadm1
 sudo useradd -g db2iadm1 -m -d /home/db2inst1 db2inst1
 #passwd db2inst1
@@ -63,7 +64,7 @@ tar xvzf client.deb64.tar.gz
 sudo dpkg -i 1c*.deb
 sudo apt -f -y install
 sudo chown -R usr1cv8:grp1cv8 /opt/1C
-sudo echo -e "pass\npass\n" | passwd usr1cv8
+sudo echo -e "pass\npass\n" | sudo passwd usr1cv8
 sudo usermod -aG db2iadm1 usr1cv8
 sudo echo ". /home/db2inst1/sqllib/db2profile" >> /home/usr1cv8/.profile
 sudo service srv1cv83 start
