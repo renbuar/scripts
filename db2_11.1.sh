@@ -31,39 +31,22 @@ sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2set DB2_WORKLOAD=1C
 sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2start
 # скрипт автозапуска
 cd /tmp
-cat > db2autostart.sh <<EOF
-#! /bin/sh
-case "$1" in
-  start)
-    sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2start
-    ;;
-  stop)
-    sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2stop
-    ;;
-  *)
-    echo "Usage: /etc/init.d/db2autostart {start|stop}"
-    exit 1
-    ;;
-esac
-exit 0
-EOF
-sudo chmod +x db2autostart.sh
-sudo cp db2autostart.sh /usr/local/bin/
 cat > db2auto.service <<EOF
 [Unit]
 Description = db2 db2auto daemon
 
 [Service]
 Type=forking
-ExecStart=/usr/local/bin/db2autostart.sh start
-ExecStop =/usr/local/bin/db2autostart.sh stop
+ExecStart=/usr/bin/sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2start
+ExecStop =/usr/bin/sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2stop
 
 [Install]
 WantedBy=multi-user.target
 EOF
-sudo chmod +x db2auto.service
+#sudo chmod +x db2auto.service
 sudo cp db2auto.service /lib/systemd/system
 sudo systemctl daemon-reload
 sudo systemctl enable db2auto.service
+sudo systemctl start db2auto.service
 sudo systemctl status db2auto.service
 #sudo shutdown -r now
