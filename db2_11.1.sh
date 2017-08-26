@@ -27,8 +27,7 @@ cd /opt/ibm/db2/V11.1/instance
 sudo ./db2icrt -u db2fenc1 db2inst1
 sudo ./db2iauto -on db2inst1
 sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2set DB2_WORKLOAD=1C
-#sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2stop
-sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2start
+#sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2start
 # скрипт автозапуска
 cd /tmp
 cat > db2auto.service <<EOF
