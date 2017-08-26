@@ -65,9 +65,8 @@ sudo apt -f -y install
 sudo chown -R usr1cv8:grp1cv8 /opt/1C
 sudo echo -e "pass\npass\n" | sudo passwd usr1cv8
 sudo usermod -aG db2iadm1 usr1cv8
-sudo echo ". /home/db2inst1/sqllib/db2profile" >> /home/usr1cv8/.profile
-#
-#
+#sudo echo ". /home/db2inst1/sqllib/db2profile" >> /home/usr1cv8/.profile
+sudo sh -c "echo '. /home/db2inst1/sqllib/db2profile' >> /home/usr1cv8/.profile"
 sudo service srv1cv83 start
 #sudo service srv1cv83 status
 mkdir /tmp/hasp
