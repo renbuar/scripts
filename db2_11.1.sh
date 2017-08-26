@@ -69,4 +69,12 @@ sudo usermod -aG db2iadm1 usr1cv8
 sudo echo ". /home/db2inst1/sqllib/db2profile" >> /home/usr1cv8/.profile
 sudo service srv1cv83 start
 sudo service srv1cv83 status
+mkdir /tmp/hasp
+cd /tmp/hasp
+wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd-modules_7.60-eter1debian_amd64.deb
+wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd_7.60-eter1debian_amd64.deb
+sudo dpkg -i *.deb
+sudo apt-get install -f
+sudo service haspd start
+sudo service haspd status
 #sudo shutdown -r now
