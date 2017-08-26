@@ -27,5 +27,40 @@ cd /opt/ibm/db2/V11.1/instance
 sudo ./db2icrt -u db2fenc1 db2inst1
 sudo ./db2iauto -on db2inst1
 sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2set DB2_WORKLOAD=1C
-sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2stop
+#sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2stop
 sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2start
+# скрипт автозапуска
+sudo cat > /usr/local/bin/db2autostart.sh <<EOF
+#! /bin/sh
+case "$1" in
+  start)
+    sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2start
+    ;;
+  stop)
+    sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2stop
+    ;;
+  *)
+    echo "Usage: /etc/init.d/db2autostart {start|stop}"
+    exit 1
+    ;;
+esac
+exit 0
+EOF
+sudo chmod +x /usr/local/bin/db2autostart.sh
+sudo cat > /lib/systemd/system/db2auto.service <<EOF
+[Unit]
+Description = db2 db2auto daemon
+
+[Service]
+Type=forking
+ExecStart=/usr/local/bin/db2autostart.sh start
+ExecStop =/usr/local/bin/db2autostart.sh stop
+
+[Install]
+WantedBy=multi-user.target
+EOF
+sudo chmod +x /lib/systemd/system/db2auto.service
+sudo systemctl daemon-reload
+sudo systemctl enable db2auto.service
+sudo systemctl status db2auto.service
+#sudo shutdown -r now
