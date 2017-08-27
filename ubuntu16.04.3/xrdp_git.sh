@@ -15,11 +15,35 @@
 echo "Installing prereqs for compiling xrdp..."
 echo "----------------------------------------"
 sudo apt install -y git autoconf libtool pkg-config gcc g++ make libssl-dev libpam0g-dev libjpeg-dev libx11-dev libxfixes-dev libxrandr-dev flex bison libxml2-dev intltool xsltproc xutils-dev python-libxml2 g++ xutils libfuse-dev libmp3lame-dev nasm libpixman-1-dev xserver-xorg-dev git
+#sudo apt-get -y install libx11-dev libxfixes-dev libssl-dev libpam0g-dev libtool libjpeg-dev flex bison gettext autoconf libxml-parser-perl libfuse-dev xsltproc libxrandr-dev python-libxml2 nasm xserver-xorg-dev fuse git pkg-config
 # fontutil.h fix
-sudo apt purge libxfont-dev -y
-sudo apt install libxfont1-dev -y
-# extra, non-related to compilation, make sure xserver-xorg is installed:
-sudo apt-get -y install xserver-xorg
+##################################################################
+sudo cat > /usr/include/X11/fonts/fontutil.h  <<EOF
+    #ifndef _FONTUTIL_H_
+    #define _FONTUTIL_H_
+
+    #include <X11/fonts/FSproto.h>
+
+    extern int FontCouldBeTerminal(FontInfoPtr);
+    extern int CheckFSFormat(fsBitmapFormat, fsBitmapFormatMask, int *, int *,
+    			 int *, int *, int *);
+    extern void FontComputeInfoAccelerators(FontInfoPtr);
+
+    extern void GetGlyphs ( FontPtr font, unsigned long count,
+    			unsigned char *chars, FontEncoding fontEncoding,
+    			unsigned long *glyphcount, CharInfoPtr *glyphs );
+    extern void QueryGlyphExtents ( FontPtr pFont, CharInfoPtr *charinfo,
+    				unsigned long count, ExtentInfoRec *info );
+    extern Bool QueryTextExtents ( FontPtr pFont, unsigned long count,
+    			       unsigned char *chars, ExtentInfoRec *info );
+    extern Bool ParseGlyphCachingMode ( char *str );
+    extern void InitGlyphCaching ( void );
+    extern void SetGlyphCachingMode ( int newmode );
+    extern int add_range ( fsRange *newrange, int *nranges, fsRange **range,
+    		       Bool charset_subset );
+
+    #endif /* _FONTUTIL_H_ */
+    EOF
 ##################################################################
 #Step 2 - Obtain xrdp packages
 ##################################################################
@@ -63,7 +87,6 @@ sudo cp module-xrdp*.so /usr/lib/pulse-10.0/modules
 ##################################################################
 #Step 5 - Configure of xrdp_keyboard.ini for russian keyboard
 ##################################################################
-sudo dpkg-reconfigure xserver-xorg-legacy
 sudo cat > xrdp_keyboard.ini <<EOF
 [default_rdp_layouts]
 rdp_layout_us=0x00000409
@@ -113,6 +136,7 @@ sudo cp 02-allow-colord.conf /etc/polkit-1/localauthority.conf.d
 #Step 7 - Restart Computer
 ##################################################################
 ## -- Issue systemctl command to reflect change and enable the service
+sudo dpkg-reconfigure xserver-xorg-legacy
 sudo xrdp-keygen xrdp auto 2048
 sudo systemctl daemon-reload
 sudo systemctl enable xrdp.service
