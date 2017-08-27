@@ -18,17 +18,15 @@ sudo apt install -y git autoconf libtool pkg-config gcc g++ make libssl-dev libp
 #sudo apt-get -y install libx11-dev libxfixes-dev libssl-dev libpam0g-dev libtool libjpeg-dev flex bison gettext autoconf libxml-parser-perl libfuse-dev xsltproc libxrandr-dev python-libxml2 nasm xserver-xorg-dev fuse git pkg-config
 # fontutil.h fix
 ##################################################################
-sudo cat > /usr/include/X11/fonts/fontutil.h  <<EOF
+sudo mkdir -p /usr/include/X11/fonts/
+sudo cat > fontutil.h <<EOF
     #ifndef _FONTUTIL_H_
     #define _FONTUTIL_H_
-
     #include <X11/fonts/FSproto.h>
-
     extern int FontCouldBeTerminal(FontInfoPtr);
     extern int CheckFSFormat(fsBitmapFormat, fsBitmapFormatMask, int *, int *,
     			 int *, int *, int *);
     extern void FontComputeInfoAccelerators(FontInfoPtr);
-
     extern void GetGlyphs ( FontPtr font, unsigned long count,
     			unsigned char *chars, FontEncoding fontEncoding,
     			unsigned long *glyphcount, CharInfoPtr *glyphs );
@@ -41,9 +39,9 @@ sudo cat > /usr/include/X11/fonts/fontutil.h  <<EOF
     extern void SetGlyphCachingMode ( int newmode );
     extern int add_range ( fsRange *newrange, int *nranges, fsRange **range,
     		       Bool charset_subset );
-
     #endif /* _FONTUTIL_H_ */
-    EOF
+EOF
+sudo cp fontutil.h /usr/include/X11/fonts
 ##################################################################
 #Step 2 - Obtain xrdp packages
 ##################################################################
