@@ -142,3 +142,4 @@ sudo systemctl enable xrdp-sesman.service
 echo "Restart the Computer"
 echo "----------------------------"
 #sudo shutdown -r now
+# nano /etc/X11/Xwrapper.config
