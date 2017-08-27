@@ -52,9 +52,10 @@ sudo systemctl start db2auto.service
 mkdir -p /tmp/1ctmp
 cd /tmp/1ctmp
 sudo apt install -y unixodbc libgsf-1-114
-wget  http://ftp.ru.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
-sudo  apt install -y xfonts-utils cabextract
-sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
+#wget  http://ftp.ru.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
+#sudo  apt install -y xfonts-utils cabextract
+#sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
+
 cp /home/user/Загрузки/deb64.tar.gz /tmp/1ctmp
 cp /home/user/Загрузки/client.deb64.tar.gz /tmp/1ctmp
 tar xvzf deb64.tar.gz
