@@ -143,3 +143,4 @@ echo "Restart the Computer"
 echo "----------------------------"
 #sudo shutdown -r now
 # nano /etc/X11/Xwrapper.config
+# allowed_user=anybody
