@@ -34,7 +34,7 @@ EOF
 sudo cp /tmp/hosts /etc
 # изменим hostname
 sudo hostname db2-2528
-sudo /bin/su -c "echo 'db2_2528' > /etc/hostname"
+sudo /bin/su -c "echo 'db2-2528' > /etc/hostname"
 sudo /etc/init.d/hostname.sh
 # отключим ip6
 sudo /bin/su -c "echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf"
