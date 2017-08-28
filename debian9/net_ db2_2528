@@ -24,7 +24,7 @@ EOF
 sudo cp /tmp/interfaces /etc/network
 # перезагрузим сеть
 sudo systemctl start networking.service
-#sudo service networking restart
+sudo service networking restart
 # изменим hostname и ip
 sudo cat > /tmp/hosts <<EOF
 127.0.0.1       localhost
@@ -32,7 +32,7 @@ sudo cat > /tmp/hosts <<EOF
 EOF
 sudo cp /tmp/hosts /etc
 # изменим hostname
-sudo /bin/su -c "'db2_2528' > /etc/hostname"
+sudo /bin/su -c "echo 'db2_2528' > /etc/hostname"
 sudo /etc/init.d/hostname.sh
 # отключим ip6
 sudo /bin/su -c "echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf"
