@@ -1,4 +1,9 @@
 # настройка ip debian 9 на kvm
+# отключим сетевой менеджер
+sudo systemctl disable NetworkManager
+sudo systemctl stop NetworkManager
+sudo systemctl enable networking.service
+# настроим статический ip
 sudo cat > /tmp/interfaces <<EOF
 # This file describes the network interfaces available on your system
 # and how to activate them. For more information, see interfaces(5).
@@ -21,11 +26,19 @@ dns-nameservers 192.168.0.1
 auto ens3
 EOF
 sudo cp /tmp/interfaces /etc/network
+# перезагрузим сеть
+sudo systemctl start networking.service
+#sudo service networking restart
+# изменим hostname и ip
 sudo cat > /tmp/hosts <<EOF
 127.0.0.1       localhost
-127.0.1.1       debian
+192.168.0.160   debian
 EOF
 sudo cp /tmp/hosts /etc
+# изменим hostname
+sudo /bin/su -c "'debian' > /etc/hostname"
+sudo /etc/init.d/hostname.sh
+# отключим ip6
 sudo /bin/su -c "echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf"
 sudo /bin/su -c "echo 'net.ipv6.conf.default.disable_ipv6 = 1' >> /etc/sysctl.conf"
 sudo /bin/su -c "echo 'net.ipv6.conf.lo.disable_ipv6 = 1' >> /etc/sysctl.conf"
