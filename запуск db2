@@ -11,12 +11,13 @@ DB2_USER=db2inst1
 NAME=`basename $0`
 
 # For SELinux we need to use 'runuser' not 'su'
-if [ -x /sbin/runuser ]
-then
-        SU=runuser
-else
-        SU=su
-fi
+#if [ -x /sbin/runuser ]
+#then
+#        SU=runuser
+#else
+         SU=su
+#fi
+
 
 # Find home
 DB2_HOME=`$SU $DB2_USER -c 'echo \$HOME'`
