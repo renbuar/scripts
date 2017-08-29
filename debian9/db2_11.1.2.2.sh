@@ -74,7 +74,7 @@ Description = db2 db2auto daemon
 [Service]
 Type=forking
 ExecStart=/usr/local/bin/db2auto.sh start
-ExecStop =/usr/local/bin/db2auto.sh stop
+#ExecStop =/usr/local/bin/db2auto.sh stop
 [Install]
 WantedBy=multi-user.target
 EOF
