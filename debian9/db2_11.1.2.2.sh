@@ -30,15 +30,74 @@ sudo ./db2iauto -on db2inst1
 #sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2set DB2_WORKLOAD=1C
 sudo su db2inst1 -c '. /home/db2inst1/sqllib/db2profile;/home/db2inst1/sqllib/adm/db2set DB2_WORKLOAD=1C'
 #sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2start
-# скрипт автозапуска
+# скрипт автозапуска 1
+cd /tmp
+cat > db2auto.sh <<EOF
+#!/bin/sh
+# Startup script for DB2 
+# Find the name of the script
+NAME=`basename $0`
+
+start() {
+    DB2_START=$"Starting ${NAME} service: "
+    sudo su db2inst1 -c '. /home/db2inst1/sqllib/db2profile;/home/db2inst1/sqllib/adm/db2start'
+    ret=$? 
+    if [ $ret -eq 0 ]
+    then
+            echo "$DB2_START Success."
+    else
+            echo "$DB2_START Failed!"
+            exit 1
+    fi
+    echo
+}
+
+stop() {
+    echo -n $"Stopping ${NAME} service: "
+    sudo su db2inst1 -c '. /home/db2inst1/sqllib/db2profile;/home/db2inst1/sqllib/adm/db2stop'
+    ret=$?
+    if [ $ret -eq 0 ]
+    then
+            echo "Success."
+    else
+            echo "Failed!"
+            exit 1
+    fi
+    echo
+}
+
+restart() {
+    stop
+    start
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+exit 0
+EOF
+sudo chmod +x db2auto.sh
+sudo cp db2auto.sh  /usr/local/bin
+# скрипт сервиса
 cd /tmp
 cat > db2auto.service <<EOF
 [Unit]
 Description = db2 db2auto daemon
 [Service]
 Type=forking
-ExecStart=/usr/bin/sudo su db2inst1 -c '. /home/db2inst1/sqllib/db2profile;/home/db2inst1/sqllib/adm/db2start'
-ExecStop =/usr/bin/sudo su db2inst1 -c '. /home/db2inst1/sqllib/db2profile;/home/db2inst1/sqllib/adm/db2stop'
+ExecStart=/usr/local/bin/db2auto.sh start
+ExecStop =/usr/local/bin/db2auto.sh stop
 [Install]
 WantedBy=multi-user.target
 EOF
