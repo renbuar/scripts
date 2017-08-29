@@ -37,6 +37,7 @@ cat > db2auto.sh <<EOF
 #
 # Startup script for DB2 
 # Find the name of the script
+BB='$1'
 start() {
     sudo su db2inst1 -c '. /home/db2inst1/sqllib/db2profile;/home/db2inst1/sqllib/adm/db2start'
 }
@@ -47,7 +48,7 @@ restart() {
     stop
     start
 }
-case "$1" in
+case "${BB}" in
     start)
         start
         ;;
