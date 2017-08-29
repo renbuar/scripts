@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Startup script for DB2 Personal Edition
-# 
+# http://blog.cachemiss.com/articles/DB2%20Init%20Script.pod
 # description: DB2 RDBMS System
 # processname: dataserver
 
