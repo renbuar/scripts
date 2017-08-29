@@ -1,0 +1,77 @@
+#!/bin/sh
+#
+# Startup script for DB2 Personal Edition
+# 
+# description: DB2 RDBMS System
+# processname: dataserver
+
+DB2_USER=db2inst1
+
+# Find the name of the script
+NAME=`basename $0`
+
+# For SELinux we need to use 'runuser' not 'su'
+if [ -x /sbin/runuser ]
+then
+        SU=runuser
+else
+        SU=su
+fi
+
+# Find home
+DB2_HOME=`$SU $DB2_USER -c 'echo \$HOME'`
+
+start() {
+    DB2_START=$"Starting ${NAME} service: "
+
+    $SU $DB2_USER -c '. $DB2_HOME/sqllib/db2profile; \
+        $DB2_HOME/sqllib/adm/db2start > /dev/null'
+
+    ret=$? 
+    if [ $ret -eq 0 ]
+    then
+            echo "$DB2_START Success."
+    else
+            echo "$DB2_START Failed!"
+            exit 1
+    fi
+    echo
+}
+
+stop() {
+    echo -n $"Stopping ${NAME} service: "
+
+    $SU $DB2_USER -c '. $DB2_HOME/sqllib/db2profile; \
+        $DB2_HOME/sqllib/adm/db2stop > /dev/null'
+
+    ret=$?
+    if [ $ret -eq 0 ]
+    then
+            echo "Success."
+    else
+            echo "Failed!"
+            exit 1
+    fi
+    echo
+}
+
+restart() {
+    stop
+    start
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+exit 0
