@@ -25,7 +25,9 @@ cd expc
 sudo ./db2_install -f sysreq
 #Не указан сервер SMTP уведомлений. Пока он не задан, нельзя послать уведомления
 cd /opt/ibm/db2/V11.1/instance
+#Create instance
 sudo ./db2icrt -u db2fenc1 db2inst1
+#Enable auto-start of the instance by running the following command as the instance owner:
 sudo ./db2iauto -on db2inst1
 #sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2set DB2_WORKLOAD=1C
 sudo su db2inst1 -c '. /home/db2inst1/sqllib/db2profile;/home/db2inst1/sqllib/adm/db2set DB2_WORKLOAD=1C'
@@ -33,7 +35,7 @@ sudo su db2inst1 -c '. /home/db2inst1/sqllib/db2profile;/home/db2inst1/sqllib/ad
 cd /tmp
 cat > db2fmcd.service <<EOF
 [Unit]
-Description = DB2V11.1
+Description = DB2V11122
 [Service]
 ExecStart=/opt/ibm/db2/V11.1/bin/db2fmcd
 Restart=always
@@ -48,6 +50,11 @@ sudo systemctl enable db2fmcd
 sudo systemctl start db2fmcd
 #ps -eaf|grep -i db2sysc
 #sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2start
+cd /opt/ibm/db2/V11.1/bin/
+#This step adds an entry to the /etc/inittab so that the FMCD process is started each time you reboot.
+sudo ./db2fmcu -u -p /opt/ibm/db2/V11.1/bin/db2fmcd
+#Turn on the fault monitor for the instance:
+sudo  ./db2fm -i db2inst1 -f on
 # установка 1с
 mkdir -p /tmp/1ctmp
 cd /tmp/1ctmp
