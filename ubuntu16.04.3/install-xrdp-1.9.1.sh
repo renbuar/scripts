@@ -12,9 +12,9 @@
 #---------------------------------------------------#
 # Step 0 - Try to Detect Ubuntu Version.... 
 #---------------------------------------------------#
-#uversion=$(uname -n)
-uversion = "u16043"
-if [ $uversion = "u16043" ]
+uversion=$(uname -n)
+#if [ $uversion = "u16043" ]
+if [ "u16043" = "u16043" ]
 then
 echo
 /bin/echo -e "\e[1;32mSupported version detected....proceeding\e[0m"
@@ -119,7 +119,7 @@ echo
 cd ~/Downloads/xrdp
 sudo ./bootstrap
 sudo ./configure --enable-fuse --enable-jpeg 
-make
+sudo make
 
 #-- check if no error during compilation
 
@@ -151,7 +151,7 @@ echo
 cd ~/Downloads/xorgxrdp 
 sudo ./bootstrap 
 sudo ./configure 
-make
+sudo make
 
 # check if no error during compilation 
 if [ $? -eq 0 ]
