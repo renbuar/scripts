@@ -12,8 +12,8 @@
 #---------------------------------------------------#
 # Step 0 - Try to Detect Ubuntu Version.... 
 #---------------------------------------------------#
-uversion=$(uname -n)
-
+#uversion=$(uname -n)
+uversion = "u16043"
 if [ $uversion = "u16043" ]
 then
 echo
@@ -50,6 +50,7 @@ fi
 #---------------------------------------------------#
 
 sudo apt-get -y install git
+mkdir -p ~/Downloads
 cd ~/Downloads
 
 ## -- Download the xrdp latest files
@@ -78,7 +79,7 @@ sudo apt-get -y install libx11-dev libxfixes-dev libssl-dev libpam0g-dev libtool
 /bin/echo -e "\e[1;32mIntegrating fix for fontutil bug in ubuntu\e[0m"
 /bin/echo -e "\e[1;32m--------------------------------------------\e[0m"
 echo
-cat >/usr/include/X11/fonts/fontutil.h <<EOF
+cat > fontutil.h <<EOF
 #ifndef _FONTUTIL_H_
 #define _FONTUTIL_H_
 
@@ -104,7 +105,7 @@ extern int add_range ( fsRange *newrange, int *nranges, fsRange **range,
 
 #endif /* _FONTUTIL_H_ */
 EOF
-
+sudo cp fontutil.h /usr/include/X11/fonts
 #---------------------------------------------------#
 # Step 4 - compiling... 
 #---------------------------------------------------#
@@ -176,7 +177,7 @@ sudo make install
 # Step 5 - create policies exceptions .... 
 #---------------------------------------------------#
 
-cat >/etc/polkit-1/localauthority.conf.d/02-allow-colord.conf <<EOF
+cat > 02-allow-colord.conf <<EOF
 polkit.addRule(function(action, subject) {
 if ((action.id == “org.freedesktop.color-manager.create-device” ||
 action.id == “org.freedesktop.color-manager.create-profile” ||
@@ -189,7 +190,7 @@ return polkit.Result.YES;
 }
 });
 EOF
-
+sudo cp 02-allow-colord.conf /etc/polkit-1/localauthority.conf.d
 #---------------------------------------------------#
 # Step 6 - configure Xwrapper file .... 
 #---------------------------------------------------#
