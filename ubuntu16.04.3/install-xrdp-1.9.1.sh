@@ -86,10 +86,8 @@ cat > fontutil.h <<EOF
 #include <X11/fonts/FSproto.h>
 
 extern int FontCouldBeTerminal(FontInfoPtr);
-extern int CheckFSFormat(fsBitmapFormat, fsBitmapFormatMask, int *, int *,
-     int *, int *, int *);     int *, int *, int *);
+extern int CheckFSFormat(fsBitmapFormat, fsBitmapFormatMask, int *, int *, int *, int *, int *);
 extern void FontComputeInfoAccelerators(FontInfoPtr);
-extern void GetGlyphs ( FontPtr font, unsigned long count,
 extern void GetGlyphs ( FontPtr font, unsigned long count,    
              unsigned char *chars, FontEncoding fontEncoding,    
              unsigned long *glyphcount, CharInfoPtr *glyphs );
