@@ -121,7 +121,7 @@ echo
 cd ~/Downloads/xrdp
 sudo ./bootstrap
 sudo ./configure --enable-fuse --enable-jpeg 
-sudo make
+make
 
 #-- check if no error during compilation
 
@@ -153,7 +153,7 @@ echo
 cd ~/Downloads/xorgxrdp 
 sudo ./bootstrap 
 sudo ./configure 
-sudo make
+make
 
 # check if no error during compilation 
 if [ $? -eq 0 ]
