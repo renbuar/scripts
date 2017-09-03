@@ -19,14 +19,14 @@ sudo apt install -y git autoconf libtool pkg-config gcc g++ make libssl-dev libp
 #Step 2 - Obtain xrdp packages
 ##################################################################
 ## --Go to your Download folder
-echo "Moving to the /tmp folders..."
+echo "Moving to the /home/user folders..."
 echo "-----------------------------------"
-cd /tmp
+cd /home/user
 ## -- Download the xrdp latest files
 echo "Ready to start the download of xrdp package"
 echo "-------------------------------------------"
 git clone git://github.com/neutrinolabs/xrdp
-cd /tmp/xrdp
+cd /home/user/xrdp
 ./bootstrap
 ./configure --enable-fuse --enable-mp3lame --enable-pixman --enable-sound --disable-ipv6
 make
@@ -35,9 +35,9 @@ sudo ln -s /usr/local/sbin/xrdp{,-sesman} /usr/sbin
 ##################################################################
 #Step 3 - Download and compiling xorgxrdp packages
 ##################################################################
-cd /tmp
+cd /home/user
 git clone git://github.com/neutrinolabs/xorgxrdp
-cd /tmp/xorgxrdp
+cd /home/user/xorgxrdp
 # https://github.com/neutrinolabs/xrdp/issues/337
 kb_model="pc105"
 kb_layout="us,ru"
@@ -50,14 +50,14 @@ sudo make install
 ##################################################################
 #Step 4 - Configure pulseaudio
 ##################################################################
-cd /tmp
+cd /home/user
 mkdir -p pulseaudio
 sudo apt-get install -y dpkg-dev
 sudo apt-get source pulseaudio
 sudo apt-get build-dep pulseaudio
-cd /tmp/pulseaudio-10.0
+cd /home/user/pulseaudio-10.0
 sudo ./configure
-cd /tmp/xrdp/sesman/chansrv/pulse
+cd /home/user/xrdp/sesman/chansrv/pulse
 make
 sudo cp module-xrdp*.so /usr/lib/pulse-10.0/modules
 ##################################################################
