@@ -38,11 +38,6 @@ sudo ln -s /usr/local/sbin/xrdp{,-sesman} /usr/sbin
 cd /home/user
 git clone git://github.com/neutrinolabs/xorgxrdp
 cd /home/user/xorgxrdp
-# https://github.com/neutrinolabs/xrdp/issues/337
-kb_model="pc105"
-kb_layout="us,ru"
-kb_options="grp:alt_shift_toggle,grp_led:scroll"
-sed -ri.bak "s/(set.model)[^;]+/\1 = \"$kb_model\"/;s/(set.layout)[^;]+/\1 = \"$kb_layout\"/;s/(set.options)[^;]+/\1 = \"$kb_options\"/" xorgxrdp/xrdpkeyb/rdpKeyboard.c
 ./bootstrap
 ./configure
 make
