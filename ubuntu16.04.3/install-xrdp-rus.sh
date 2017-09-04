@@ -13,7 +13,8 @@
 # Step 0 - Try to Detect Ubuntu Version.... 
 #---------------------------------------------------#
 uversion=$(lsb_release -d | grep -o 16.04.3)
-if [ $uversion = “16.04.3” ]
+#if [ $uversion = “16.04.3” ]
+if [ 1 = 1 ]
 then
 echo
 /bin/echo -e "\e[1;32mSupported version detected....proceeding\e[0m"
