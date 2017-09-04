@@ -12,9 +12,8 @@
 #---------------------------------------------------#
 # Step 0 - Try to Detect Ubuntu Version.... 
 #---------------------------------------------------#
-uversion=$(uname -n)
-#if [ $uversion = "u16043" ]
-if [ "u16043" = "u16043" ]
+uversion=$(lsb_release -d | grep -o 16.04.3)
+if [ $uversion = “16.04.3” ]
 then
 echo
 /bin/echo -e "\e[1;32mSupported version detected....proceeding\e[0m"
@@ -115,7 +114,8 @@ echo
 
 cd ~/Downloads/xrdp
 sudo ./bootstrap
-sudo ./configure --enable-fuse --enable-jpeg 
+#sudo ./configure --enable-fuse --enable-jpeg 
+sudo ./configure --enable-fuse --enable-mp3lame --enable-pixman --enable-sound --disable-ipv6
 sudo make
 
 #-- check if no error during compilation
@@ -224,6 +224,18 @@ rdp_layout_us=us,ru
 rdp_layout_ru=us,ru
 EOF
 sudo cp xrdp_keyboard.ini /etc/xrdp
+#---------------------------------------------------#
+# Step 6.3 - Configure pulseaudio
+#---------------------------------------------------#
+#mkdir -p ~/Downloads
+cd ~/Downloads
+wget https://freedesktop.org/software/pulseaudio/releases/pulseaudio-8.0.tar.gz
+tar -zxvf pulseaudio-8.0.tar.gz
+cd  ~/Downloads/pulseaudio-8.0
+sudo ./configure
+cd ~/Downloads/xrdp/sesman/chansrv/pulse
+make
+sudo cp module-xrdp*.so /usr/lib/pulse-8.0/modules
 #---------------------------------------------------#
 # Step 7 - Populate the .xsession file .... 
 #---------------------------------------------------#
