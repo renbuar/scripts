@@ -197,7 +197,7 @@ sudo sed -i 's/allowed_users=console/allowed_users=anybody/' /etc/X11/Xwrapper.c
 #---------------------------------------------------#
 # Step 6.2 - Configure of xrdp_keyboard.ini for russian keyboard
 #---------------------------------------------------#
-sudo dpkg-reconfigure xserver-xorg-legacy
+#sudo dpkg-reconfigure xserver-xorg-legacy
 sudo cat > xrdp_keyboard.ini <<EOF
 [default_rdp_layouts]
 rdp_layout_us=0x00000409
@@ -230,11 +230,11 @@ sudo cp xrdp_keyboard.ini /etc/xrdp
 # Step 6.3 - Configure pulseaudio
 #---------------------------------------------------#
 #mkdir -p ~/Downloads
-cd ~/Downloads
+cd /tmp
 wget https://freedesktop.org/software/pulseaudio/releases/pulseaudio-8.0.tar.gz
 tar -zxvf pulseaudio-8.0.tar.gz
-mv ~/Downloads/pulseaudio-8.0 ~/Downloads/pulseaudio-10.0
-cd  ~/Downloads/pulseaudio-10.0
+mv /tmp/pulseaudio-8.0 /tmp/pulseaudio-10.0
+cd  /tmp/pulseaudio-10.0
 sudo ./configure
 cd ~/Downloads/xrdp/sesman/chansrv/pulse
 make
