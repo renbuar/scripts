@@ -71,6 +71,7 @@ git clone https://github.com/neutrinolabs/xorgxrdp.git
 /bin/echo -e "\e[1;32m-----------------------------------\e[0m"
 echo
 sudo apt-get -y install libx11-dev libxfixes-dev libssl-dev libpam0g-dev libtool libjpeg-dev flex bison gettext autoconf libxml-parser-perl libfuse-dev xsltproc libxrandr-dev python-libxml2 nasm xserver-xorg-dev fuse
+sudo apt install -y libmp3lame-dev libpixman-1-dev
 
 #---------------------------------------------------#
 # Step 3 - create the fontutil.h file... 
@@ -232,7 +233,8 @@ sudo cp xrdp_keyboard.ini /etc/xrdp
 cd ~/Downloads
 wget https://freedesktop.org/software/pulseaudio/releases/pulseaudio-8.0.tar.gz
 tar -zxvf pulseaudio-8.0.tar.gz
-cd  ~/Downloads/pulseaudio-8.0
+mv ~/Downloads/pulseaudio-8.0 ~/Downloads/pulseaudio-10.0
+cd  ~/Downloads/pulseaudio-10.0
 sudo ./configure
 cd ~/Downloads/xrdp/sesman/chansrv/pulse
 make
