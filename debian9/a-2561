@@ -1,8 +1,14 @@
+#!/bin/bash
 # настройка ip и hostname hname debian 9 на kvm
-# В двух местах меняем ip, в трех hostname
+#----------------------------------------------------------------------
+_hostname="a-2561"
+_iface="ens3"
+_address="192.168.0.170"
+_gateway="192.168.0.1"
+_netmask="255.255.255.0"
+_nameserver="8.8.8.8"
+#----------------------------------------------------------------------
 # отключим сетевой менеджер
-hname = "a-2561"
-ipadr = "192.168.0.170"
 sudo systemctl disable NetworkManager
 sudo systemctl stop NetworkManager
 sudo systemctl enable networking.service
@@ -15,29 +21,29 @@ source /etc/network/interfaces.d/*
 auto lo
 iface lo inet loopback
 # The primary network interface
-#auto ens3
-#iface ens3 inet dhcp
-iface ens3 inet static
-address $ipadr
-netmask 255.255.255.0
-gateway 192.168.0.1
-#dns-nameservers 192.168.0.1
-auto ens3
+#auto $_iface
+#iface $_iface inet dhcp
+iface $_iface inet static
+address $_address
+netmask $_netmask
+gateway $_gateway
+#dns-nameservers $_nameserver
+auto $_iface
 EOF
 sudo cp /tmp/interfaces /etc/network
 sudo rm /etc/resolv.conf
-sudo /bin/su -c "echo 'nameserver 8.8.8.8' > /etc/resolv.conf"
+sudo /bin/su -c "echo 'nameserver $_nameserver' > /etc/resolv.conf"
 # перезагрузим сеть
 sudo systemctl start networking.service
 # изменим hostname и ip
 sudo cat > /tmp/hosts <<EOF
 127.0.0.1       localhost
-$ipadr   $hname
+$_address       $_hostname
 EOF
 sudo cp /tmp/hosts /etc
 # изменим hostname
-sudo hostname $hname
-sudo /bin/su -c "echo $hname > /etc/hostname"
+sudo hostname $_hostname
+sudo /bin/su -c "echo $_hostname > /etc/hostname"
 # отключим ip6
 sudo /bin/su -c "echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf"
 sudo /bin/su -c "echo 'net.ipv6.conf.default.disable_ipv6 = 1' >> /etc/sysctl.conf"
