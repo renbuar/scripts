@@ -13,14 +13,14 @@ source /etc/network/interfaces.d/*
 auto lo
 iface lo inet loopback
 # The primary network interface
-#auto ens3
-#iface ens3 inet dhcp
-iface ens3 inet static
+#auto enp0s3
+#iface enp0s3 inet dhcp
+iface enp0s3 inet static
 address 192.168.1.163
 netmask 255.255.255.0
 gateway 192.168.1.1
 #dns-nameservers 192.168.1.1
-auto ens3
+auto enp0s3
 EOF
 sudo cp /tmp/interfaces /etc/network
 sudo rm /etc/resolv.conf
