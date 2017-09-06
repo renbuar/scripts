@@ -54,7 +54,7 @@ sudo sysctl -p
 # перезагрузим сеть
 sudo systemctl start networking.service
 sudo service networking restart
-# Настройка journalctl -b
+# Настройка sudo journalctl -b sudo journalctl -b -1 sudo journalctl --list-boots
 sudo sed -i 's/#Storage=auto/Storage=persistent/' /etc/systemd/journald.conf
 # ubuntu
 # Отключим службу ondemand
