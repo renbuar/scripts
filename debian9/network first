@@ -2,6 +2,8 @@
 # настройка ip и hostname hname debian 9 на kvm
 #----------------------------------------------------------------------
 _hostname="xrdp"
+# real computer
+#_iface="enp0s31f6"
 # kvm iface
 #_iface="ens3"
 # virtualbox iface
