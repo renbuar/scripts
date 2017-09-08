@@ -1,0 +1,48 @@
+#!/bin/bash
+# настройка ip и hostname hname debian 9 на kvm
+#----------------------------------------------------------------------
+_hostname="xrdp"
+# real computer
+#_iface="enp0s31f6"
+# kvm iface
+#_iface="ens3"
+# virtualbox iface
+_iface="enp0s3"
+_address="192.168.0.150"
+_gateway="192.168.0.1"
+_netmask="255.255.255.0"
+_nameserver="8.8.8.8"
+#----------------------------------------------------------------------
+# настроим статический ip
+sudo cat > /tmp/interfaces <<EOF
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+source /etc/network/interfaces.d/*
+# The loopback network interface
+auto lo
+iface lo inet loopback
+# The primary network interface
+#auto $_iface
+#iface $_iface inet dhcp
+iface $_iface inet static
+address $_address
+netmask $_netmask
+gateway $_gateway
+#dns-nameservers $_nameserver
+auto $_iface
+EOF
+sudo cp /tmp/interfaces /etc/network
+sudo rm /etc/resolv.conf
+sudo /bin/su -c "echo 'nameserver $_nameserver' > /etc/resolv.conf"
+# изменим hostname и ip
+sudo cat > /tmp/hosts <<EOF
+127.0.0.1       localhost
+$_address       $_hostname
+EOF
+sudo cp /tmp/hosts /etc
+# изменим hostname
+sudo hostname $_hostname
+sudo /bin/su -c "echo $_hostname > /etc/hostname"
+# перезагрузим сеть
+sudo systemctl start networking.service
+sudo service networking restart
