@@ -1,0 +1,17 @@
+#!/bin/sh
+# http://renbuar.blogspot.ru/search/label/pure-ftpd
+sudo apt install pure-ftpd -y
+sudo groupadd ftpgroup
+# Заведем пользователя ftpuser с паролем 12345
+sudo useradd -g ftpgroup -d /dev/null -s /etc ftpuser
+sudo echo -e "12345\n12345\n" | sudo passwd ftpuser
+sudo mkdir /home/ftpuser/
+sudo chown -R ftpuser:ftpgroup /home/ftpuser
+sudo ln -s /etc/pure-ftpd/conf/PureDB /etc/pure-ftpd/auth/50pure
+sudo mkdir /home/ftpuser/test
+sudo chown -R ftpuser:ftpgroup /home/ftpuser/test
+#sudo pure-pw useradd test -u ftpuser -d /home/ftpuser/test
+# Заведем пользователя ftp test с паролем test
+sudo echo -e "test\ntest\n" | sudo pure-pw useradd test -u ftpuser -d /home/ftpuser/test
+sudo pure-pw mkdb
+sudo service pure-ftpd restart
