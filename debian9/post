@@ -4,6 +4,7 @@ sudo sh -c 'echo "deb http://1c.postgrespro.ru/deb/ $(lsb_release -cs) main" > /
 wget --quiet -O - http://1c.postgrespro.ru/keys/GPG-KEY-POSTGRESPRO-1C | sudo apt-key add - && sudo apt-get update -y
 sudo apt-get install postgresql-pro-1c-9.6 -y
 sudo -u postgres psql -U postgres -c "alter user postgres with password 'pass';"
+sudo cp /etc/postgresql/9.6/main/postgresql.conf /etc/postgresql/9.6/main/postgresql.conf.bak
 # установка 1с
 mkdir -p /tmp/1ctmp
 cd /tmp/1ctmp
