@@ -58,6 +58,18 @@ sudo systemctl start networking.service
 sudo service networking restart
 # Настройка sudo journalctl -b sudo journalctl -b -1 sudo journalctl --list-boots
 sudo sed -i 's/#Storage=auto/Storage=persistent/' /etc/systemd/journald.conf
+# Настройка ftp пользователь: test пароль: test
+sudo apt install pure-ftpd -y
+sudo groupadd ftpgroup
+sudo usermod -aG ftpgroup user
+sudo ln -s /etc/pure-ftpd/conf/PureDB /etc/pure-ftpd/auth/50pure
+sudo mkdir /home/user/test
+sudo chown -R user:ftpgroup /home/user/test
+#sudo pure-pw useradd test -u user -d /home/user/test
+# Заведем пользователя ftp test с паролем test
+sudo echo -e "test\ntest\n" | sudo pure-pw useradd test -u user -d /home/user/test
+sudo pure-pw mkdb
+sudo service pure-ftpd restart
 # ubuntu
 # Отключим службу ondemand
 # (для разгона cpu)
