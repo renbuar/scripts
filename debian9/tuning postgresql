@@ -1,0 +1,11 @@
+# http://renbuar.blogspot.ru/2017/07/postgresql.html
+# https://pgconf.ru/2017/93686
+sudo cp /etc/postgresql/9.6/main/postgresql.conf /etc/postgresql/9.6/main/postgresql.conf.original
+sudo sed -i 's/#ssl = off/ssl = off/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#autovacuum = on/autovacuum = on/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#autovacuum_max_workers = 3/autovacuum_max_workers = 3/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#autovacuum_naptime = 1min/autovacuum_naptime = 20s/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#autovacuum_vacuum_scale_factor = 0.2/autovacuum_vacuum_scale_factor = 0.01/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#autovacuum_analyze_scale_factor = 0.1/autovacuum_analyze_scale_factor = 0.05/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#fsync = on/fsync = on/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#synchronous_commit = on/synchronous_commit = off/' /etc/postgresql/9.6/main/postgresql.conf
