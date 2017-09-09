@@ -14,7 +14,8 @@ cp /home/user/Загрузки/libjpeg62-turbo_1.5.1-2_amd64.deb /tmp/tmp
 cp /home/user/Загрузки/ia32-libs_20170906_amd64.deb  /tmp/tmp
 cd /tmp/tmp
 wget http://ftp.ru.debian.org/debian/pool/main/k/ksh/ksh_93u+20120801-3.1_amd64.deb
-sudo dpkg -i ksh/ksh_93u+20120801-3.1_amd64.deb
+sudo dpkg -i ksh_93u+20120801-3.1_amd64.deb
+sudo apt install -f -y
 sudo apt install libc6-i386 -y
 sudo dpkg -i libjpeg62-turbo_1.5.1-2_amd64.deb
 sudo dpkg -i ia32-libs_20170906_amd64.deb
@@ -26,7 +27,7 @@ sudo apt-get install libx32stdc++6 -y
 sudo apt-get install libnuma-dev -y
 sudo apt-get install libstdc++6 -y
 #sudo apt-get install libstdc++5 -y
-sudo apt-get install ksh -y
+#sudo apt-get install ksh -y
 #sudo apt-get install rpm -y
 cp /home/user/Загрузки/v11.1_linuxx64_expc.tar.gz /tmp
 cd /tmp
