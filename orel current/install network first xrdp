@@ -1,0 +1,183 @@
+#!/bin/bash
+# настройка ip и hostname hname debian 9 на kvm
+#----------------------------------------------------------------------
+_hostname="xrdp"
+# real computer
+#_iface="enp0s31f6"
+# kvm iface
+#_iface="ens3"
+# virtualbox iface
+#_iface="enp0s3"
+# orel current virtualbox
+_iface="eth0"
+_address="192.168.1.190"
+_gateway="192.168.1.1"
+_netmask="255.255.255.0"
+_nameserver="8.8.8.8"
+#----------------------------------------------------------------------
+##################################################################
+#Step 1 - Install prereqs for compilation
+##################################################################
+echo "Installing prereqs for compiling xrdp..."
+echo "----------------------------------------"
+sudo apt install -y mc ssh samba
+sudo apt install -y git autoconf libtool pkg-config gcc g++ make libssl-dev libpam0g-dev libjpeg-dev libx11-dev libxfixes-dev libxrandr-dev flex bison libxml2-dev intltool xsltproc xutils-dev python-libxml2 g++ xutils libfuse-dev libmp3lame-dev nasm libpixman-1-dev xserver-xorg-dev git
+##################################################################
+#Step 2 - Obtain xrdp packages
+##################################################################
+## --Go to your Download folder
+echo "Moving to the /tmp folders..."
+echo "-----------------------------------"
+cd /tmp
+## -- Download the xrdp latest files
+echo "Ready to start the download of xrdp package"
+echo "-------------------------------------------"
+git clone git://github.com/neutrinolabs/xrdp
+cd /tmp/xrdp
+./bootstrap
+#./configure --enable-fuse --enable-mp3lame --enable-pixman --enable-sound --disable-ipv6
+./configure --enable-fuse --enable-mp3lame --enable-pixman --disable-ipv6
+make
+sudo make install
+sudo ln -s /usr/local/sbin/xrdp{,-sesman} /usr/sbin
+##################################################################
+#Step 3 - Download and compiling xorgxrdp packages
+##################################################################
+cd /tmp
+git clone git://github.com/neutrinolabs/xorgxrdp
+cd /tmp/xorgxrdp
+./bootstrap
+./configure
+make
+sudo make install
+##################################################################
+#Step 5 - Configure of xrdp_keyboard.ini for russian keyboard
+##################################################################
+sudo dpkg-reconfigure xserver-xorg-legacy
+sudo cat > xrdp_keyboard.ini <<EOF
+[default_rdp_layouts]
+rdp_layout_us=0x00000409
+rdp_layout_de=0x00000407
+rdp_layout_fr=0x0000040C
+rdp_layout_it=0x00000410
+rdp_layout_jp=0x00000411
+rdp_layout_jp2=0xe0010411
+rdp_layout_jp3=0xe0200411
+rdp_layout_jp4=0xe0210411
+rdp_layout_ru=0x00000419
+rdp_layout_se=0x0000041D
+rdp_layout_pt=0x00000816
+rdp_layout_br=0x00000416
+rdp_layout_pl=0x00000415
+[rdp_keyboard_ru]
+keyboard_type=4
+keyboard_type=7
+keyboard_subtype=1
+model=pc105
+options=grp:alt_shift_toggle
+rdp_layouts=default_rdp_layouts
+layouts_map=layouts_map_ru
+[layouts_map_ru]
+rdp_layout_us=us,ru
+rdp_layout_ru=us,ru
+EOF
+sudo cp xrdp_keyboard.ini /etc/xrdp
+##################################################################
+#Step 6 - Configure Polkit to avoid popup in Xrdp Session
+##################################################################
+sudo cat > 02-allow-colord.conf <<EOF
+polkit.addRule(function(action, subject) {
+if ((action.id == “org.freedesktop.color-manager.create-device” ||
+action.id == “org.freedesktop.color-manager.create-profile” ||
+action.id == “org.freedesktop.color-manager.delete-device” ||
+action.id == “org.freedesktop.color-manager.delete-profile” ||
+action.id == “org.freedesktop.color-manager.modify-device” ||
+action.id == “org.freedesktop.color-manager.modify-profile”) &&
+subject.isInGroup(“{group}”)) {
+return polkit.Result.YES;
+}
+});
+EOF
+sudo cp 02-allow-colord.conf /etc/polkit-1/localauthority.conf.d
+##################################################################
+#Step 7 - Restart Computer
+##################################################################
+## -- Issue systemctl command to reflect change and enable the service
+sudo xrdp-keygen xrdp auto 2048
+sudo systemctl daemon-reload
+sudo systemctl enable xrdp.service
+sudo systemctl enable xrdp-sesman.service
+echo "Restart the Computer"
+echo "----------------------------"
+#sudo shutdown -r now
+# отключим сетевой менеджер
+sudo systemctl disable NetworkManager
+sudo systemctl stop NetworkManager
+sudo systemctl enable networking.service
+# настроим статический ip
+sudo cat > /tmp/interfaces <<EOF
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+source /etc/network/interfaces.d/*
+# The loopback network interface
+auto lo
+iface lo inet loopback
+# The primary network interface
+#auto $_iface
+#iface $_iface inet dhcp
+iface $_iface inet static
+address $_address
+netmask $_netmask
+gateway $_gateway
+#dns-nameservers $_nameserver
+auto $_iface
+EOF
+sudo cp /tmp/interfaces /etc/network
+sudo rm /etc/resolv.conf
+sudo /bin/su -c "echo 'nameserver $_nameserver' > /etc/resolv.conf"
+# изменим hostname и ip
+sudo cat > /tmp/hosts <<EOF
+127.0.0.1       localhost
+$_address       $_hostname
+EOF
+sudo cp /tmp/hosts /etc
+# изменим hostname
+sudo hostname $_hostname
+sudo /bin/su -c "echo $_hostname > /etc/hostname"
+# отключим ip6
+sudo /bin/su -c "echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf"
+sudo /bin/su -c "echo 'net.ipv6.conf.default.disable_ipv6 = 1' >> /etc/sysctl.conf"
+sudo /bin/su -c "echo 'net.ipv6.conf.lo.disable_ipv6 = 1' >> /etc/sysctl.conf"
+#sudo /bin/su -c "echo 'net.ipv4.ip_forward = 1' >> /etc/sysctl.conf"
+sudo sysctl -p
+# перезагрузим сеть
+sudo systemctl start networking.service
+sudo service networking restart
+# Настройка sudo journalctl -b sudo journalctl -b -1 sudo journalctl --list-boots
+sudo sed -i 's/#Storage=auto/Storage=persistent/' /etc/systemd/journald.conf
+# Настройка ftp пользователь: test пароль: test
+cd /temp
+wget http://ftp.ru.debian.org/debian/pool/main/p/pure-ftpd/pure-ftpd-common_1.0.43-3_all.deb
+wget http://ftp.ru.debian.org/debian/pool/main/p/pure-ftpd/pure-ftpd_1.0.43-3_amd64.deb
+sudo dpkg -i pure-ftpd-common_1.0.43-3_all.deb
+sudo dpkg -i pure-ftpd_1.0.43-3_amd64.deb
+sudo apt install -f -y
+sudo groupadd ftpgroup
+sudo usermod -aG ftpgroup user
+sudo ln -s /etc/pure-ftpd/conf/PureDB /etc/pure-ftpd/auth/50pure
+sudo mkdir /home/user/test
+sudo chown -R user:ftpgroup /home/user/test
+#sudo pure-pw useradd test -u user -d /home/user/test
+# Заведем пользователя ftp test с паролем test
+sudo echo -e "test\ntest\n" | sudo pure-pw useradd test -u user -d /home/user/test
+sudo pure-pw mkdb
+sudo service pure-ftpd restart
+# ubuntu
+# Отключим службу ondemand
+# (для разгона cpu)
+# cat /proc/cpuinfo | grep MHz
+# systemctl status ondemand
+# systemctl stop ondemand
+# systemctl disable ondemand
+# nano /etc/sysctl.conf
+# shutdown -r now
