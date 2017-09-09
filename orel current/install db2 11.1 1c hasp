@@ -7,9 +7,17 @@ sudo groupadd db2fadm1
 sudo useradd -g db2fadm1 -m -d /home/db2fenc1 db2fenc1
 #sudo passwd db2fenc1
 sudo echo -e "pass\npass\n" | sudo passwd db2fenc1
-sudo dpkg --add-architecture i386
-sudo apt-get update
-sudo apt-get install libpam0g:i386 -y
+#sudo dpkg --add-architecture i386
+#sudo apt-get update
+mkdir -p /tmp/tmp
+cp /home/user/Загрузки/libjpeg62-turbo_1.5.1-2_amd64.deb /tmp/tmp
+cp /home/user/Загрузки/ia32-libs_20170906_amd64.deb  /tmp/tmp
+cd /tmp/tmp
+sudo apt install libc6-i386 -y
+sudo dpkg -i libjpeg62-turbo_1.5.1-2_amd64.deb
+sudo dpkg -i ia32-libs_20170906_amd64.deb
+sudo apt install -f -y
+#sudo apt-get install libpam0g:i386 -y
 #sudo apt-get install libaio1 -y
 sudo apt-get install libx32stdc++6 -y
 #sudo apt-get install binutils -y
