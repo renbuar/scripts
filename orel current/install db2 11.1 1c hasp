@@ -61,6 +61,7 @@ sudo systemctl enable db2fmcd
 sudo systemctl start db2fmcd
 #ps -eaf|grep -i db2sysc
 #sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2start
+sudo su db2inst1 -c '. /home/db2inst1/sqllib/db2profile;/home/db2inst1/sqllib/adm/db2start'
 cd /opt/ibm/db2/V11.1/bin/
 #This step adds an entry to the /etc/inittab so that the FMCD process is started each time you reboot.
 sudo ./db2fmcu -u -p /opt/ibm/db2/V11.1/bin/db2fmcd
