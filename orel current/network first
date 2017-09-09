@@ -61,7 +61,12 @@ sudo service networking restart
 # Настройка sudo journalctl -b sudo journalctl -b -1 sudo journalctl --list-boots
 sudo sed -i 's/#Storage=auto/Storage=persistent/' /etc/systemd/journald.conf
 # Настройка ftp пользователь: test пароль: test
-sudo apt install pure-ftpd -y
+cd /temp
+wget http://ftp.ru.debian.org/debian/pool/main/p/pure-ftpd/pure-ftpd-common_1.0.43-3_all.deb
+wget http://ftp.ru.debian.org/debian/pool/main/p/pure-ftpd/pure-ftpd_1.0.43-3_amd64.deb
+sudo dpkg -i pure-ftpd-common_1.0.43-3_all.deb
+sudo dpkg -i pure-ftpd_1.0.43-3_amd64.deb
+sudo apt install -f
 sudo groupadd ftpgroup
 sudo usermod -aG ftpgroup user
 sudo ln -s /etc/pure-ftpd/conf/PureDB /etc/pure-ftpd/auth/50pure
