@@ -53,6 +53,7 @@ sudo make install
 ##################################################################
 #Step 5 - Configure of xrdp_keyboard.ini for russian keyboard
 ##################################################################
+sudo apt install xserver-xorg-legacy -y
 sudo dpkg-reconfigure xserver-xorg-legacy
 sudo cat > xrdp_keyboard.ini <<EOF
 [default_rdp_layouts]
