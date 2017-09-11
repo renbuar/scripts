@@ -1,6 +1,29 @@
 # http://renbuar.blogspot.ru/2017/07/postgresql.html
 # https://pgconf.ru/2017/93686
 sudo cp /etc/postgresql/9.6/main/postgresql.conf /etc/postgresql/9.6/main/postgresql.conf.original
+#
+sudo cp /etc/postgresql/9.6/main/postgresql.conf /etc/postgresql/9.6/main/postgresql.conf.original
+#
+sudo sed -i 's/max_connections = 100/max_connections = 20/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/shared_buffers = 128MB/shared_buffers = 2GB/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#effective_cache_size = 4GB/effective_cache_size = 6GB/' /etc/postgresql/9.6/main/postgresql.conf 
+#
+sudo sed -i 's/#work_mem = 4MB/work_mem = 100MB/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#maintenance_work_mem = 64MB/maintenance_work_mem = 512MB/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#min_wal_size = 80MB/min_wal_size = 2GB/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#max_wal_size = 1GB/max_wal_size = 4GB/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#checkpoint_completion_target = 0.5/checkpoint_completion_target = 0.9/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#wal_buffers = -1/wal_buffers = 16MB/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#default_statistics_target = 100/default_statistics_target = 100/' /etc/postgresql/9.6/main/postgresql.conf
+#
 sudo sed -i 's/#ssl = off/ssl = off/' /etc/postgresql/9.6/main/postgresql.conf
 sudo sed -i 's/#autovacuum = on/autovacuum = on/' /etc/postgresql/9.6/main/postgresql.conf
 sudo sed -i 's/#autovacuum_max_workers = 3/autovacuum_max_workers = 3/' /etc/postgresql/9.6/main/postgresql.conf
