@@ -14,9 +14,8 @@ _netmask="255.255.255.0"
 _nameserver="8.8.8.8"
 #----------------------------------------------------------------------
 # отключим сетевой менеджер
-sudo systemctl disable NetworkManager
 sudo systemctl stop NetworkManager
-sudo systemctl enable networking.service
+sudo systemctl disable NetworkManager
 # настроим статический ip
 sudo cat > /tmp/interfaces <<EOF
 # This file describes the network interfaces available on your system
@@ -55,7 +54,7 @@ sudo /bin/su -c "echo 'net.ipv6.conf.lo.disable_ipv6 = 1' >> /etc/sysctl.conf"
 sudo sysctl -p
 # перезагрузим сеть
 sudo systemctl start networking.service
-sudo service networking restart
+sudo systemctl enable networking.service
 # Настройка sudo journalctl -b sudo journalctl -b -1 sudo journalctl --list-boots
 sudo sed -i 's/#Storage=auto/Storage=persistent/' /etc/systemd/journald.conf
 # Настройка ftp пользователь: test пароль: test
