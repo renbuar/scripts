@@ -111,7 +111,8 @@ sudo sed -i 's/max_connections = 100/max_connections = 500/' /etc/postgresql/9.6
 #
 sudo sed -i 's/#log_min_duration_statement = -1/log_min_duration_statement = 0/' /etc/postgresql/9.6/main/postgresql.conf
 #
-sudo sed -i 's/log_line_prefix = '%t [%p-%l] %q%u@%d '/log_line_prefix = '%t [%p]: [%l-1] ' или '%t [%p]: [%l-1] user=%u,db=%d,client=%h '/' /etc/postgresql/9.6/main/postgresql.conf
+# log_line_prefix = '%t [%p]: [%l-1] ' или '%t [%p]: [%l-1] user=%u,db=%d,client=%h '
+#sudo sed -i 's/log_line_prefix = '%t [%p-%l] %q%u@%d '/log_line_prefix = '%t [%p]: [%l-1] user=%u,db=%d,client=%h '/' /etc/postgresql/9.6/main/postgresql.conf
 #
 sudo sed -i 's/#log_checkpoints = off/log_checkpoints = on/' /etc/postgresql/9.6/main/postgresql.conf
 #
