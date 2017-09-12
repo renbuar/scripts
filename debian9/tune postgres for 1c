@@ -3,8 +3,6 @@ sudo cp /etc/postgresql/9.6/main/postgresql.conf /etc/postgresql/9.6/main/postgr
 # RAM 12 GB RAM - объем оперативной памяти сервера. Если сервер используется не только для PostgreSQL,
 # то надо уменьшить эту величину на объем занятой памяти.
 #
-sudo sed -i 's/max_connections = 100/max_connections = 20/' /etc/postgresql/9.6/main/postgresql.conf
-#
 # shared_buffers = RAM/4
 # Количество памяти, выделенной PgSQL для совместного кеша страниц. Эта память разделяется между всеми процессами PgSQL.
 sudo sed -i 's/shared_buffers = 128MB/shared_buffers = 3GB/' /etc/postgresql/9.6/main/postgresql.conf
@@ -81,6 +79,55 @@ sudo sed -i 's/#ssl = off/ssl = off/' /etc/postgresql/9.6/main/postgresql.conf
 # проверьте наличие и функциональность батарейки кеша RAID контроллера! Иначе данные записанные в кеш RAID могут быть потеряны при выключении питания, и, как следствие, PgSQL не гарантирует целостность данных.
 sudo sed -i 's/#fsync = on/fsync = on/' /etc/postgresql/9.6/main/postgresql.conf
 #
+# Групповой коммит нескольких транзакций. Имеет смысл включать, если темп транзакций превосходит 1000 TPS. Иначе эффекта не имеет.
+sudo sed -i 's/#commit_delay = 0/commit_delay = 1000/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#commit_siblings = 5/commit_siblings = 5/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! temp_tablespaces = ''
+#
+# Отключение контроля разрешения уровня записи
+sudo sed -i 's/#row_security = on/row_security = off/' /etc/postgresql/9.6/main/postgresql.conf
+#
+#  !!!!!!!!!!!!!!! pg_stat_temp
+#
+# Максимальное количество открытых файлов на один процесс PostreSQL. Один файл это как минимум либо индекс либо таблица,
+# но таблица/может состоять из нескольких файлов. Если PostgreSQL упирается в этот лимит, он начинает открывать/закрывать файлы,
+# что может сказываться на производительности. Диагностировать проблему под Linux можно с помощью команды lsof.
+sudo sed -i 's/#max_files_per_process = 1000/max_files_per_process = 1000/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# Разрешить использовать символ \ для экранирования
+sudo sed -i 's/#standard_conforming_strings = on/standard_conforming_strings = off/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# Не выдавать предупреждение о использовании символа \ для экранирования
+sudo sed -i 's/#escape_string_warning = on/escape_string_warning = off/' /etc/postgresql/9.6/main/postgresql.conf
+#
+#
+# Максимальное число блокировок индексов/таблиц в одной транзакции
+sudo sed -i 's/max_locks_per_transaction = 150/max_locks_per_transaction = 256/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# Количество одновременных коннектов/сессий
+sudo sed -i 's/max_connections = 100/max_connections = 500/' /etc/postgresql/9.6/main/postgresql.conf
+#
+#
+sudo sed -i 's/#log_min_duration_statement = -1/log_min_duration_statement = 0/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/log_line_prefix = '%t [%p-%l] %q%u@%d '/log_line_prefix = '%t [%p]: [%l-1] ' или '%t [%p]: [%l-1] user=%u,db=%d,client=%h '/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#log_checkpoints = off/log_checkpoints = on/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#log_connections = off/log_connections = on/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#log_disconnections = off/log_disconnections = on/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#log_lock_waits = off/log_lock_waits = on/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#log_temp_files = -1/log_temp_files = 0/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#log_autovacuum_min_duration = -1/log_autovacuum_min_duration = 0/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/lc_messages = 'ru_RU.UTF-8'/lc_messages = 'C'/' /etc/postgresql/9.6/main/postgresql.conf
+lc_messages = 'ru_RU.UTF-8'
+
 #---------------------------------------------------------------------------------------------------------------------------
 #
 sudo sed -i 's/#wal_buffers = -1/wal_buffers = 16MB/' /etc/postgresql/9.6/main/postgresql.conf
