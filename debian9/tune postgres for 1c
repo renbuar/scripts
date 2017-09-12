@@ -57,7 +57,7 @@ sudo sed -i 's/#bgwriter_lru_maxpages = 100/bgwriter_lru_maxpages = 400/' /etc/p
 # Выключение синхронизации с диском в момент коммита. Создает риск потери последних нескольких транзакций
 # (в течении 0.5-1 секунды), но гарантирует целостность базы данных, в цепочке коммитов гарантированно отсутствуют
 # пропуски. Но значительно увеличивает производительность.
-sudo sed -i 's/#synchronous_commit = on/synchronous_commit = on/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#synchronous_commit = on/synchronous_commit = off/' /etc/postgresql/9.6/main/postgresql.conf
 #
 # !!! checkpoint_segments ????????????????????????????????????
 #
