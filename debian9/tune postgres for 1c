@@ -126,16 +126,22 @@ sudo sed -i 's/#log_temp_files = -1/log_temp_files = 0/' /etc/postgresql/9.6/mai
 sudo sed -i 's/#log_autovacuum_min_duration = -1/log_autovacuum_min_duration = 0/' /etc/postgresql/9.6/main/postgresql.conf
 #
 sudo sed -i 's/lc_messages = 'ru_RU.UTF-8'/lc_messages = 'C'/' /etc/postgresql/9.6/main/postgresql.conf
-lc_messages = 'ru_RU.UTF-8'
-
+#
+sudo sed -i 's/lc_messages = 'ru_RU.UTF-8'/lc_messages = 'C'/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#log_duration = off/log_duration = on/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#log_statement = 'none'/log_statement = 'all'/' /etc/postgresql/9.6/main/postgresql.conf
+#
+#sudo sed -i 's/log_destination = 'stderr'/log_destination = 'stderr'/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# plantuner.fix_empty_table !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #---------------------------------------------------------------------------------------------------------------------------
 #
-sudo sed -i 's/#wal_buffers = -1/wal_buffers = 16MB/' /etc/postgresql/9.6/main/postgresql.conf
+#sudo sed -i 's/#wal_buffers = -1/wal_buffers = 16MB/' /etc/postgresql/9.6/main/postgresql.conf
 #
-sudo sed -i 's/#default_statistics_target = 100/default_statistics_target = 100/' /etc/postgresql/9.6/main/postgresql.conf
+#sudo sed -i 's/#default_statistics_target = 100/default_statistics_target = 100/' /etc/postgresql/9.6/main/postgresql.conf
 #
-
-sudo sed -i 's/#autovacuum_vacuum_scale_factor = 0.2/autovacuum_vacuum_scale_factor = 0.01/' /etc/postgresql/9.6/main/postgresql.conf
-sudo sed -i 's/#autovacuum_analyze_scale_factor = 0.1/autovacuum_analyze_scale_factor = 0.05/' /etc/postgresql/9.6/main/postgresql.conf
-
-sudo sed -i 's/#synchronous_commit = on/synchronous_commit = off/' /etc/postgresql/9.6/main/postgresql.conf
+#sudo sed -i 's/#autovacuum_vacuum_scale_factor = 0.2/autovacuum_vacuum_scale_factor = 0.01/' /etc/postgresql/9.6/main/postgresql.conf
+#sudo sed -i 's/#autovacuum_analyze_scale_factor = 0.1/autovacuum_analyze_scale_factor = 0.05/' /etc/postgresql/9.6/main/postgresql.conf
+#sudo sed -i 's/#synchronous_commit = on/synchronous_commit = off/' /etc/postgresql/9.6/main/postgresql.conf
