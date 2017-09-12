@@ -1,0 +1,49 @@
+# https://kb.1c.ru/articleView.jsp?id=91
+sudo cp /etc/postgresql/9.6/main/postgresql.conf /etc/postgresql/9.6/main/postgresql.conf.original
+# RAM 12 GB RAM - объем оперативной памяти сервера. Если сервер используется не только для PostgreSQL,
+# то надо уменьшить эту величину на объем занятой памяти.
+#
+sudo sed -i 's/max_connections = 100/max_connections = 20/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# shared_buffers = RAM/4
+# Количество памяти, выделенной PgSQL для совместного кеша страниц. Эта память разделяется между всеми процессами PgSQL.
+sudo sed -i 's/shared_buffers = 128MB/shared_buffers = 3GB/' /etc/postgresql/9.6/main/postgresql.conf
+#
+#Максимальное количество страниц для временных таблиц. Т.е. это верхний лимит размера временных таблиц в каждой сессии.
+sudo sed -i 's/#temp_buffers = 8MB/temp_buffers = 256MB/' /etc/postgresql/9.6/main/postgresql.conf 
+#
+# work_mem = RAM/32..64 или 32MB..128MB
+# Лимит памяти для обработки одного запроса
+sudo sed -i 's/#work_mem = 4MB/work_mem = 192MB/' /etc/postgresql/9.6/main/postgresql.conf
+#
+#  maintenance_work_mem = RAM/16..32 или work_mem * 4 или 256MB..4GB
+# Лимит памяти для обслуживающих задач, например вакуум, автовакуум или создания индексов.
+sudo sed -i 's/#maintenance_work_mem = 64MB/maintenance_work_mem = 768MB/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# effective_cache_size = RAM - shared_buffers
+# Оценка размера кеша файловой системы. Увеличение параметра увеличивает склонность системы выбирать IndexScan планы. И это хорошо.
+sudo sed -i 's/#effective_cache_size = 4GB/effective_cache_size = 9GB/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# Оценочное значение одновременных запросов к дисковой системе, которые она может обслужить единовременно.
+# Для одиночного диска = 1, для RAID - 2 или больше.
+#sudo sed -i 's/#effective_io_concurrency = 1/effective_io_concurrency = 2/' /etc/postgresql/9.6/main/postgresql.conf
+#
+#
+sudo sed -i 's/#min_wal_size = 80MB/min_wal_size = 2GB/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#max_wal_size = 1GB/max_wal_size = 4GB/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#checkpoint_completion_target = 0.5/checkpoint_completion_target = 0.9/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#wal_buffers = -1/wal_buffers = 16MB/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#default_statistics_target = 100/default_statistics_target = 100/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#ssl = off/ssl = off/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#autovacuum = on/autovacuum = on/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#autovacuum_max_workers = 3/autovacuum_max_workers = 3/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#autovacuum_naptime = 1min/autovacuum_naptime = 20s/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#autovacuum_vacuum_scale_factor = 0.2/autovacuum_vacuum_scale_factor = 0.01/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#autovacuum_analyze_scale_factor = 0.1/autovacuum_analyze_scale_factor = 0.05/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#fsync = on/fsync = on/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#synchronous_commit = on/synchronous_commit = off/' /etc/postgresql/9.6/main/postgresql.conf
