@@ -1,0 +1,54 @@
+sudo apt update -y
+sudo apt upgrade -y
+sudo apt-get install libicu55 postgresql-common -y
+sudo cp /usr/share/hunspell/ru_RU.aff  /usr/share/hunspell/ru_RU.aff.copy
+sudo sed -e '1s/^\xef\xbb\xbf//' /usr/share/hunspell/ru_RU.aff
+mkdir -p /tmp/post
+cp /home/user/test/postgresql_9.6.3_3.1C_amd64_deb.tar.bz2 /tmp/post/
+cp /home/user/test/postgresql_9.6.3_3.1C_amd64_addon_deb.tar.bz2 /tmp/post/
+cd /tmp/post 
+tar -xvf postgresql_9.6.3_3.1C_amd64_deb.tar.bz2
+cd postgresql-9.6.3-3.1C_amd64_deb
+sudo dpkg -i *.deb
+cd /tmp/post/
+tar -xvf postgresql_9.6.3_3.1C_amd64_addon_deb.tar.bz2
+cd postgresql-9.6.3-3.1C_amd64_addon_deb
+sudo dpkg -i *.deb
+sudo -u postgres psql -U postgres -c "alter user postgres with password 'pass';"
+sudo cp /etc/postgresql/9.6/main/postgresql.conf /etc/postgresql/9.6/main/postgresql.conf.bak
+# установка 1с
+mkdir -p /tmp/1ctmp
+cd /tmp/1ctmp
+sudo apt install -y unixodbc libgsf-1-114
+#ubuntu
+#sudo apt install ttf-mscorefonts-installer -y
+#debian
+#wget  http://ftp.ru.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
+#sudo  apt install -y xfonts-utils cabextract
+#sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
+# фонты от Etersoft
+#ubuntu
+#cp /home/user/Загрузки/fonts-ttf-ms_1.0-eter4ubuntu_all.deb /tmp/1ctmp
+#sudo dpkg -i fonts-ttf-ms_1.0-eter4ubuntu_all.deb
+#debian
+cp /home/user/Загрузки/fonts-ttf-ms_1.0-eter4debian_all.deb /tmp/1ctmp
+sudo dpkg -i fonts-ttf-ms_1.0-eter4debian_all.deb
+cp /home/user/Загрузки/deb64.tar.gz /tmp/1ctmp
+cp /home/user/Загрузки/client.deb64.tar.gz /tmp/1ctmp
+tar xvzf deb64.tar.gz
+tar xvzf client.deb64.tar.gz
+sudo dpkg -i 1c*.deb
+sudo apt -f -y install
+sudo chown -R usr1cv8:grp1cv8 /opt/1C
+sudo echo -e "pass\npass\n" | sudo passwd usr1cv8
+sudo service srv1cv83 start
+#sudo service srv1cv83 status
+mkdir /tmp/hasp
+cd /tmp/hasp
+wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd-modules_7.60-eter1debian_amd64.deb
+wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd_7.60-eter1debian_amd64.deb
+sudo dpkg -i *.deb
+sudo apt-get install -f -y
+sudo service haspd start
+#sudo service haspd status
+#sudo shutdown -r now
