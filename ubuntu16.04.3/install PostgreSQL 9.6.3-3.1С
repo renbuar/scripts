@@ -24,17 +24,17 @@ sudo apt install -y unixodbc libgsf-1-114
 #sudo apt install ttf-mscorefonts-installer -y
 #debian
 #wget  http://ftp.ru.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
-#sudo  apt install -y xfonts-utils cabextract
+sudo  apt install -y xfonts-utils cabextract
 #sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
 # фонты от Etersoft
 #ubuntu
-#cp /home/user/Загрузки/fonts-ttf-ms_1.0-eter4ubuntu_all.deb /tmp/1ctmp
-#sudo dpkg -i fonts-ttf-ms_1.0-eter4ubuntu_all.deb
+cp /home/user/test/fonts-ttf-ms_1.0-eter4ubuntu_all.deb /tmp/1ctmp
+sudo dpkg -i fonts-ttf-ms_1.0-eter4ubuntu_all.deb
 #debian
-cp /home/user/Загрузки/fonts-ttf-ms_1.0-eter4debian_all.deb /tmp/1ctmp
-sudo dpkg -i fonts-ttf-ms_1.0-eter4debian_all.deb
-cp /home/user/Загрузки/deb64.tar.gz /tmp/1ctmp
-cp /home/user/Загрузки/client.deb64.tar.gz /tmp/1ctmp
+#cp /home/user/test/fonts-ttf-ms_1.0-eter4debian_all.deb /tmp/1ctmp
+#sudo dpkg -i fonts-ttf-ms_1.0-eter4debian_all.deb
+cp /home/user/test/deb64.tar.gz /tmp/1ctmp
+cp /home/user/test/client.deb64.tar.gz /tmp/1ctmp
 tar xvzf deb64.tar.gz
 tar xvzf client.deb64.tar.gz
 sudo dpkg -i 1c*.deb
