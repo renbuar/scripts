@@ -26,24 +26,69 @@ sudo sed -i 's/#effective_cache_size = 4GB/effective_cache_size = 9GB/' /etc/pos
 #
 # Оценочное значение одновременных запросов к дисковой системе, которые она может обслужить единовременно.
 # Для одиночного диска = 1, для RAID - 2 или больше.
-#sudo sed -i 's/#effective_io_concurrency = 1/effective_io_concurrency = 2/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#effective_io_concurrency = 1/effective_io_concurrency = 2/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# Стоимость чтения рандомной страницы (по-умолчанию 4). Чем меньше seek time дисковой системы тем меньше (но > 1.0)
+# должен быть этот параметр. Излишне большое значение параметра увеличивает склонность PgSQL к выбору планов
+# с сканированием всей таблицы (PgSQL считает, что дешевле последовательно читать всю таблицу, чем рандомно индекс). И это плохо.
+sudo sed -i 's/#random_page_cost = 4.0/random_page_cost = 1.5/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# Включение автовакуума. Не выключайте его!
+sudo sed -i 's/#autovacuum = on/autovacuum = on/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# autovacuum_max_workers = NCores/4..2 но не меньше 4
+# Количество процессов автовакуума. Общее правило - чем больше write-запросов,
+# тем больше процессов. На read-only базе данных достаточно одного процесса.
+sudo sed -i 's/#autovacuum_max_workers = 3/autovacuum_max_workers = 4/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# Время сна процесса автовакуума. Слишком большая величина будет приводить к тому, что таблицы не будут
+# успевать вакуумиться и, как следствие, вырастет bloat и размер таблиц и индексов. Малая величина приведет к бесполезному нагреванию.
+sudo sed -i 's/#autovacuum_naptime = 1min/autovacuum_naptime = 20s/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# Время сна между циклами записи на диск фонового процесса записи. Данный процесс ответственен за синхронизацию страниц,
+# расположенных в shared_buffers с диском. Слишком большое значение этого параметра приведет к возрастанию нагрузки
+# на  checkpoint процесс и процессы, обслуживающие сессии (backend). Малое значение приведет к полной загрузке одного из ядер.
+sudo sed -i 's/#bgwriter_delay = 200ms/bgwriter_delay = 20ms/' /etc/postgresql/9.6/main/postgresql.conf
+#
+sudo sed -i 's/#bgwriter_lru_multiplier = 2.0/bgwriter_lru_multiplier = 4.0/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# Параметры, управляющие интенсивностью записи фонового процесса записи. За один цикл bgwriter записывает не больше,
+# чем было записано в прошлый цикл, умноженное на bgwriter_lru_multiplier, но не больше чемbgwriter_lru_maxpages.
+sudo sed -i 's/#bgwriter_lru_maxpages = 100/bgwriter_lru_maxpages = 400/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# Выключение синхронизации с диском в момент коммита. Создает риск потери последних нескольких транзакций
+# (в течении 0.5-1 секунды), но гарантирует целостность базы данных, в цепочке коммитов гарантированно отсутствуют
+# пропуски. Но значительно увеличивает производительность.
+sudo sed -i 's/#synchronous_commit = on/synchronous_commit = on/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# !!! checkpoint_segments ????????????????????????????????????
+#
+# Степень "размазывания" checkpoint'a. Скорость записи во время checkpoint'а регулируется так, что бы время
+# checkpoint'а было равно времени, прошедшему с прошлого, умноженному на checkpoint_completion_target. 
+sudo sed -i 's/#checkpoint_completion_target = 0.5/checkpoint_completion_target = 0.9/' /etc/postgresql/9.6/main/postgresql.conf
 #
 #
+#
+# Минимальное и максимальный объем WAL файлов. Аналогично checkpoint_segments
 sudo sed -i 's/#min_wal_size = 80MB/min_wal_size = 2GB/' /etc/postgresql/9.6/main/postgresql.conf
-#
 sudo sed -i 's/#max_wal_size = 1GB/max_wal_size = 4GB/' /etc/postgresql/9.6/main/postgresql.conf
 #
-sudo sed -i 's/#checkpoint_completion_target = 0.5/checkpoint_completion_target = 0.9/' /etc/postgresql/9.6/main/postgresql.conf
+# Выключение шифрования. Для защищенных ЦОД'ов шифрование бессмысленно, но приводит к увеличению загрузки CPU
+sudo sed -i 's/#ssl = off/ssl = off/' /etc/postgresql/9.6/main/postgresql.conf
+#
+# Выключение параметра приводит к росту производительности, но появляется значительный риск потери всех данных
+# при внезапном выключении питания. Внимание: если RAID имеет кеш и находиться в режиме write-back,
+# проверьте наличие и функциональность батарейки кеша RAID контроллера! Иначе данные записанные в кеш RAID могут быть потеряны при выключении питания, и, как следствие, PgSQL не гарантирует целостность данных.
+sudo sed -i 's/#fsync = on/fsync = on/' /etc/postgresql/9.6/main/postgresql.conf
+#
+#---------------------------------------------------------------------------------------------------------------------------
 #
 sudo sed -i 's/#wal_buffers = -1/wal_buffers = 16MB/' /etc/postgresql/9.6/main/postgresql.conf
 #
 sudo sed -i 's/#default_statistics_target = 100/default_statistics_target = 100/' /etc/postgresql/9.6/main/postgresql.conf
 #
-sudo sed -i 's/#ssl = off/ssl = off/' /etc/postgresql/9.6/main/postgresql.conf
-sudo sed -i 's/#autovacuum = on/autovacuum = on/' /etc/postgresql/9.6/main/postgresql.conf
-sudo sed -i 's/#autovacuum_max_workers = 3/autovacuum_max_workers = 3/' /etc/postgresql/9.6/main/postgresql.conf
-sudo sed -i 's/#autovacuum_naptime = 1min/autovacuum_naptime = 20s/' /etc/postgresql/9.6/main/postgresql.conf
+
 sudo sed -i 's/#autovacuum_vacuum_scale_factor = 0.2/autovacuum_vacuum_scale_factor = 0.01/' /etc/postgresql/9.6/main/postgresql.conf
 sudo sed -i 's/#autovacuum_analyze_scale_factor = 0.1/autovacuum_analyze_scale_factor = 0.05/' /etc/postgresql/9.6/main/postgresql.conf
-sudo sed -i 's/#fsync = on/fsync = on/' /etc/postgresql/9.6/main/postgresql.conf
+
 sudo sed -i 's/#synchronous_commit = on/synchronous_commit = off/' /etc/postgresql/9.6/main/postgresql.conf
