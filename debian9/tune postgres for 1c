@@ -126,11 +126,11 @@ sudo sed -i 's/#log_temp_files = -1/log_temp_files = 0/' /etc/postgresql/9.6/mai
 #
 sudo sed -i 's/#log_autovacuum_min_duration = -1/log_autovacuum_min_duration = 0/' /etc/postgresql/9.6/main/postgresql.conf
 #
-sudo sed -i 's/lc_messages = 'ru_RU.UTF-8'/lc_messages = 'C'/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/lc_messages = 'ru_RU.UTF-8'/lc_messages = "C"/' /etc/postgresql/9.6/main/postgresql.conf
 #
 sudo sed -i 's/#log_duration = off/log_duration = on/' /etc/postgresql/9.6/main/postgresql.conf
 #
-sudo sed -i 's/#log_statement = 'none'/log_statement = 'all'/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/#log_statement = "none"/log_statement = "all"/' /etc/postgresql/9.6/main/postgresql.conf
 #
 #sudo sed -i 's/log_destination = 'stderr'/log_destination = 'stderr'/' /etc/postgresql/9.6/main/postgresql.conf
 #
