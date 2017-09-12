@@ -72,7 +72,7 @@ sudo sed -i 's/#min_wal_size = 80MB/min_wal_size = 2GB/' /etc/postgresql/9.6/mai
 sudo sed -i 's/#max_wal_size = 1GB/max_wal_size = 4GB/' /etc/postgresql/9.6/main/postgresql.conf
 #
 # Выключение шифрования. Для защищенных ЦОД'ов шифрование бессмысленно, но приводит к увеличению загрузки CPU
-sudo sed -i 's/#ssl = off/ssl = off/' /etc/postgresql/9.6/main/postgresql.conf
+sudo sed -i 's/ssl = true/ssl = false/' /etc/postgresql/9.6/main/postgresql.conf
 #
 # Выключение параметра приводит к росту производительности, но появляется значительный риск потери всех данных
 # при внезапном выключении питания. Внимание: если RAID имеет кеш и находиться в режиме write-back,
