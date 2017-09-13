@@ -1,7 +1,7 @@
 # Настройка полного технологическог журнала
 sudo mkdir -p /home/usr1cv8/.1cv8/1C/1cv8/conf/
 cat > /tmp/logcfg.xml <<EOF
-    <?xml version="1.0"?>
+    <?xml version="1.0" encoding="UTF-8"?>
     <config xmlns="http://v8.1c.ru/v8/tech-log">
     <log location="/home/usr1cv8/log" history="12">
         <event>
@@ -14,5 +14,6 @@ cat > /tmp/logcfg.xml <<EOF
 EOF
 sudo cp /tmp/logcfg.xml /home/usr1cv8/.1cv8/1C/1cv8/conf/
 sudo chown -R usr1cv8:grp1cv8 /home/usr1cv8/.1cv8/1C/1cv8/conf/
-#service srv1cv83 restart
+sudo mkdir -p /home/usr1cv8/log/
+sudo chown -R usr1cv8:grp1cv8 /home/usr1cv8/log/
 sudo systemctl restart srv1cv83.service
