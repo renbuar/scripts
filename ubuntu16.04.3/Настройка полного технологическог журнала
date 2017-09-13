@@ -3,7 +3,7 @@ sudo mkdir -p /home/usr1cv8/.1cv8/1C/1cv8/conf/
 cat > /tmp/logcfg.xml <<EOF
     <?xml version="1.0"?>
     <config xmlns="http://v8.1c.ru/v8/tech-log">
-    <log location="/home/usr1cv8/" history="12">
+    <log location="/home/usr1cv8/log" history="12">
         <event>
             <ne property="Name" value=""/>
         </event>
