@@ -1,0 +1,20 @@
+# Настройка полного технологическог журнала
+sudo mkdir -p /opt/1C/v8.3/x86_64/conf
+cat > /tmp/logcfg.xml <<EOF
+    <?xml version="1.0"?>
+    <config xmlns="http://v8.1c.ru/v8/tech-log">
+    <log location="/home/usr1cv8/log" history="12">
+        <event>
+            <ne property="Name" value=""/>
+        </event>
+        <property name="all"/>
+    </log>
+    <plansql/>
+    </config>
+EOF
+sudo cp /tmp/logcfg.xml /opt/1C/v8.3/x86_64/conf
+#sudo chown -R usr1cv8:grp1cv8 /home/usr1cv8/.1cv8/1C/1cv8/conf/
+sudo mkdir /home/usr1cv8/log/
+chown -R usr1cv8:grp1cv8 /home/usr1cv8/log/
+#service srv1cv83 restart
+sudo systemctl restart srv1cv83.service
