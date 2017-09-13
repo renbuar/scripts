@@ -1,0 +1,19 @@
+# Настройка полного технологическог журнала
+sudo mkdir -p /home/usr1cv8/.1cv8/1C/1cv8/conf/
+cat > /tmp/logcfg.xml <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://v8.1c.ru/v8/tech-log">
+        <log location="/home/usr1cv8/log" history="12">
+        <event>
+           <eq property="name" value="DB2"/>
+        </event>
+        <event>
+           <eq property="name" value="SDBL"/>
+        </event>
+        <event>
+           <eq property="name" value="EXCP"/>
+        </event>
+        <property name="all"/> 
+        </log>
+</config>
+EOF
