@@ -1,0 +1,2 @@
+sudo ln -s /mnt/sdc/test /home/user/test
+sudo chown -R user:ftpgroup /mnt/sdc/test
