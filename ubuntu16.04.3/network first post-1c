@@ -57,6 +57,8 @@ sudo systemctl start networking.service
 sudo systemctl enable networking.service
 # Настройка sudo journalctl -b sudo journalctl -b -1 sudo journalctl --list-boots
 sudo sed -i 's/#Storage=auto/Storage=persistent/' /etc/systemd/journald.conf
+# Отключение уведомлений службы Apport (/var/crash)
+sudo sed -i 's/enabled=1/enabled=0/' /etc/default/apport
 # Настройка ftp пользователь: test пароль: test
 sudo apt install pure-ftpd -y
 sudo groupadd ftpgroup
