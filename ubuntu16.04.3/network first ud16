@@ -13,6 +13,13 @@ _gateway="192.168.0.1"
 _netmask="255.255.255.0"
 _nameserver="8.8.8.8"
 #----------------------------------------------------------------------
+#add a swap file to an Ubuntu 16.04
+sudo fallocate -l 8G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+sudo cp /etc/fstab /etc/fstab.bak
+sudo echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 # отключим сетевой менеджер
 sudo systemctl stop NetworkManager.service
 sudo systemctl disable NetworkManager.service
@@ -34,7 +41,7 @@ gateway $_gateway
 dns-nameservers $_nameserver
 auto $_iface
 EOF
-#sudo cp /tmp/interfaces /etc/network
+sudo cp /tmp/interfaces /etc/network
 #sudo rm /etc/resolv.conf
 #sudo /bin/su -c "echo 'nameserver $_nameserver' > /etc/resolv.conf"
 # изменим hostname и ip
@@ -78,6 +85,7 @@ sudo service pure-ftpd restart
 # (для разгона cpu)
 # cat /proc/cpuinfo | grep MHz
 # systemctl status ondemand
-systemctl stop ondemand
-systemctl disable ondemand
+sudo systemctl stop ondemand
+sudo systemctl disable ondemand
 # shutdown -r now
+
