@@ -1,0 +1,6 @@
+wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.12.13/linux-headers-4.12.13-041213_4.12.13-041213.201709132217_all.deb
+wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.12.13/linux-headers-4.12.13-041213-generic_4.12.13-041213.201709132217_amd64.deb
+wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.12.13/linux-image-4.12.13-041213-generic_4.12.13-041213.201709132217_amd64.deb
+sudo dpkg -i linux-headers-4.12.13-041213_4.12.13-041213.201709132217_all.deb
+sudo dpkg -i linux-headers-4.12.13-041213-generic_4.12.13-041213.201709132217_amd64.deb
+sudo dpkg -i linux-image-4.12.13-041213-generic_4.12.13-041213.201709132217_amd64.deb
