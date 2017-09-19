@@ -1,7 +1,7 @@
 #!/bin/bash
 # настройка ip и hostname hname debian 9 на kvm
 #----------------------------------------------------------------------
-_hostname="ud17vb"
+_hostname="ud17-vbox"
 # real computer
 #_iface="enp0s31f6"
 # kvm iface
@@ -13,6 +13,7 @@ _gateway="192.168.0.1"
 _netmask="255.255.255.0"
 _nameserver="8.8.8.8"
 #----------------------------------------------------------------------
+sudo apt install mc ssh samba filezilla -y
 # отключим сетевой менеджер
 sudo systemctl stop NetworkManager.service
 sudo systemctl disable NetworkManager.service
