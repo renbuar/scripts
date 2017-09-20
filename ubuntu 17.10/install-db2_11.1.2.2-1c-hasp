@@ -37,7 +37,8 @@ cat > db2fmcd.service <<EOF
 [Unit]
 Description = DB2V11122
 [Service]
-ExecStart=/opt/ibm/db2/V11.1/bin/db2fmcd
+#ExecStart=/opt/ibm/db2/V11.1/bin/db2fmcd
+ExecStart=/bin/sh -ec '/opt/ibm/db2/V11.1/bin/db2fmcd'
 Restart=always
 KillMode=process
 KillSignal=SIGHUP
