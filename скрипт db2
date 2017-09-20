@@ -1,0 +1,95 @@
+# http://www.codegists.com/code/automated-installation-kit-for-windows-7/
+#!/bin/sh
+ 
+WHOAMI=$(whoami)
+if [ "$WHOAMI" != "root" ]; then
+    echo must run as root
+    exit -1
+fi
+ 
+HOSTNAME=$(hostname)
+WC=$(grep $HOSTNAME /etc/hosts | wc -l)
+if [ "$WC" == "0" ]; then
+    echo hostname missing from /etc/hosts
+    exit -1
+fi
+ 
+DB2_SOURCE=v10.5_linuxx64_expc.tar.gz
+DB2_HOME=/home/db2inst1/sqllib
+DB2_DATA=/home/db2inst1/data
+ 
+groupadd db2iadm1
+useradd -G db2iadm1 db2inst1
+ 
+usermod -a -G db2inst1 craig
+ 
+yum install -y \
+    vi \
+    sudo \
+    passwd \
+    pam \
+    pam.i686 \
+    ncurses-libs.i686 \
+    file \
+    libaio \
+    libstdc++-devel.i686 \
+    nscd
+ 
+yum clean all
+ 
+systemctl start nscd
+systemctl enable nscd
+ 
+mv $DB2_SOURCE /tmp
+cd /tmp
+tar xf $DB2_SOURCE
+ 
+su - db2inst1 -c "/tmp/expc/db2_install -b /home/db2inst1/sqllib"
+echo '. /home/db2inst1/sqllib/db2profile' >> /home/db2inst1/.bash_profile
+ 
+sed -ri 's/(ENABLE_OS_AUTHENTICATION=).*/\1YES/g' $DB2_HOME/instance/db2rfe.cfg
+sed -ri 's/(RESERVE_REMOTE_CONNECTION=).*/\1YES/g' $DB2_HOME/instance/db2rfe.cfg
+sed -ri 's/^\*(SVCENAME=db2c_db2inst1)/\1/g' $DB2_HOME/instance/db2rfe.cfg
+sed -ri 's/^\*(SVCEPORT)=48000/\1=50000/g' $DB2_HOME/instance/db2rfe.cfg
+ 
+mkdir $DB2_DATA
+chown db2inst1.db2iadm1 $DB2_DATA
+ 
+su - db2inst1 -c "db2start && db2 UPDATE DBM CFG USING DFTDBPATH $DB2_HOME IMMEDIATE && db2set DB2COMM=TCPIP"
+su - db2inst1 -c "db2stop force"
+ 
+su - db2inst1 -c "db2iauto -on db2inst1"
+ 
+mkdir -p /var/db2
+$DB2_HOME/bin/db2fmcu -u -p $DB2_HOME/bin/db2fmcd
+su - db2inst1 -c "$DB2_HOME/bin/db2fm -i db2inst1 -U"
+su - db2inst1 -c "$DB2_HOME/bin/db2fm -i db2inst1 -u"
+su - db2inst1 -c "$DB2_HOME/bin/db2fm -i db2inst1 -f on"
+ 
+$DB2_HOME/bin/db2fmcu -d
+cat > /etc/systemd/system/db2fmcd.service << EOF
+ 
+[Unit]
+Description=DB2V105
+ 
+[Service]
+ExecStart=/home/db2inst1/sqllib/bin/db2fmcd
+Restart=always
+ 
+[Install]
+WantedBy=default.target
+EOF
+ 
+systemctl daemon-reload
+systemctl start db2fmcd
+systemctl enable db2fmcd
+ 
+cd /home/db2inst1/sqllib/instance
+./db2rfe -f ./db2rfe.cfg
+rm -rf /tmp/db2*
+rm -rf /tmp/expc*
+rm -f /tmp/$DB2_SOURCE
+ 
+read -p "Reboot required, press any key to continue... " -n1 -s
+ 
+reboot
