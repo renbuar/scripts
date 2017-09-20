@@ -1,4 +1,6 @@
 #!/bin/sh
+sudo apt-get update -y
+sudo apt-get upgrade -y
 sudo groupadd db2iadm1
 sudo useradd -g db2iadm1 -m -d /home/db2inst1 db2inst1
 #passwd db2inst1
@@ -8,7 +10,7 @@ sudo useradd -g db2fadm1 -m -d /home/db2fenc1 db2fenc1
 #sudo passwd db2fenc1
 sudo echo -e "pass\npass\n" | sudo passwd db2fenc1
 sudo dpkg --add-architecture i386
-sudo apt-get update
+sudo apt-get update -y
 sudo apt-get install libpam0g:i386 -y
 #sudo apt-get install libaio1 -y
 sudo apt-get install libx32stdc++6 -y
@@ -32,23 +34,33 @@ sudo ./db2iauto -on db2inst1
 #sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2set DB2_WORKLOAD=1C
 sudo su db2inst1 -c '. /home/db2inst1/sqllib/db2profile;/home/db2inst1/sqllib/adm/db2set DB2_WORKLOAD=1C'
 # скрипт сервиса
-cd /tmp
-cat > db2fmcd.service <<EOF
-[Unit]
-Description = DB2V11122
-[Service]
+#cd /tmp
+#cat > db2fmcd.service <<EOF
+#[Unit]
+#Description = DB2V11122
+#[Service]
 #ExecStart=/opt/ibm/db2/V11.1/bin/db2fmcd
-ExecStart=/bin/sh -ec '/opt/ibm/db2/V11.1/bin/db2fmcd'
-Restart=always
-KillMode=process
-KillSignal=SIGHUP
-[Install]
-WantedBy=default.target
+#ExecStart=/bin/sh -ec '/opt/ibm/db2/V11.1/bin/db2fmcd'
+#Restart=always
+#KillMode=process
+#KillSignal=SIGHUP
+#[Install]
+#WantedBy=default.target
+#EOF
+#sudo cp db2fmcd.service /lib/systemd/system
+#sudo systemctl daemon-reload
+#sudo systemctl enable db2fmcd
+#sudo systemctl start db2fmcd
+cd /tmp
+cat > rc.local <<EOF
+#!/bin/bash
+cd /opt/ibm/db2/V11.1/bin/
+./db2fm -i db2inst1 -u -U
+./db2fm -i db2inst1 -s -S
+exit 0
 EOF
-sudo cp db2fmcd.service /lib/systemd/system
-sudo systemctl daemon-reload
-sudo systemctl enable db2fmcd
-sudo systemctl start db2fmcd
+sudo cp rc.local /etc/
+sudo chmod +x /etc/rc.local
 #ps -eaf|grep -i db2sysc
 #sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2start
 sudo su db2inst1 -c '. /home/db2inst1/sqllib/db2profile;/home/db2inst1/sqllib/adm/db2start'
