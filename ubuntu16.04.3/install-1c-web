@@ -6,12 +6,12 @@ sudo apt install -y unixodbc libgsf-1-114 libglib2.0
 sudo apt install ttf-mscorefonts-installer -y
 #debian
 #wget  http://ftp.ru.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
-#sudo  apt install -y xfonts-utils cabextract
+sudo  apt install -y xfonts-utils cabextract
 #sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
 # фонты от Etersoft
 #ubuntu
-#cp /home/user/test/fonts-ttf-ms_1.0-eter4ubuntu_all.deb /tmp/1ctmp
-#sudo dpkg -i fonts-ttf-ms_1.0-eter4ubuntu_all.deb
+cp /home/user/test/fonts-ttf-ms_1.0-eter4ubuntu_all.deb /tmp/1ctmp
+sudo dpkg -i fonts-ttf-ms_1.0-eter4ubuntu_all.deb
 sudo apt-get install -f -y
 #debian
 #cp /home/user/test/fonts-ttf-ms_1.0-eter4debian_all.deb /tmp/1ctmp
@@ -30,9 +30,16 @@ mkdir /tmp/hasp
 cd /tmp/hasp
 #wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd-modules_7.60-eter1debian_amd64.deb
 #wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd_7.60-eter1debian_amd64.deb
-wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/16.04/haspd-modules_7.40-eter10ubuntu_amd64.deb
-wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/16.04/haspd_7.40-eter10ubuntu_amd64.deb
-sudo dpkg -i *.deb
+#wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/16.04/haspd-modules_7.40-eter10ubuntu_amd64.deb
+#wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/16.04/haspd_7.40-eter10ubuntu_amd64.deb
+mkdir -p /tmp/hasp
+cd /tmp/hasp
+cp /home/user/test/haspd-modules_7.40-eter10ubuntu_amd64.deb /tmp/hasp
+cp /home/user/test/haspd_7.40-eter10ubuntu_amd64.deb /tmp/hasp
+# apt search libc6-i386
+sudo apt install libc6-i386 -y
+sudo dpkg -i haspd-modules_7.40-eter10ubuntu_amd64.deb
+sudo dpkg -i haspd_7.40-eter10ubuntu_amd64.deb
 sudo apt-get install -f -y
 sudo service haspd start
 #sudo service haspd status
@@ -43,7 +50,6 @@ sudo usermod -a -G grp1cv8 www-data
 sudo usermod -a -G user www-data
 sudo usermod -a -G www-data user
 sudo mkdir -p /home/user/InfoBase
-
-sudo mkdir -p /opt/1C_bases
-sudo chmod -R u=rw,g=rw,o=r,a+X /opt/1C_bases
+#sudo chmod -R u=rw,g=rw,o=r,a+X /opt/1C_bases
 sudo mkdir -p /var/www/shrm
+
