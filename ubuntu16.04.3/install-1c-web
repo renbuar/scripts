@@ -3,7 +3,7 @@ mkdir -p /tmp/1ctmp
 cd /tmp/1ctmp
 sudo apt install -y unixodbc libgsf-1-114 libglib2.0
 #ubuntu
-sudo apt install ttf-mscorefonts-installer -y
+#sudo apt install ttf-mscorefonts-installer -y
 #debian
 #wget  http://ftp.ru.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
 sudo  apt install -y xfonts-utils cabextract
@@ -26,8 +26,6 @@ sudo chown -R usr1cv8:grp1cv8 /opt/1C
 sudo echo -e "pass\npass\n" | sudo passwd usr1cv8
 #sudo service srv1cv83 start
 #sudo service srv1cv83 status
-mkdir /tmp/hasp
-cd /tmp/hasp
 #wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd-modules_7.60-eter1debian_amd64.deb
 #wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd_7.60-eter1debian_amd64.deb
 #wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/16.04/haspd-modules_7.40-eter10ubuntu_amd64.deb
@@ -52,4 +50,11 @@ sudo usermod -a -G www-data user
 sudo mkdir -p /home/user/InfoBase
 #sudo chmod -R u=rw,g=rw,o=r,a+X /opt/1C_bases
 sudo mkdir -p /var/www/shrm
-
+#sudo systemctl enable apache2
+sudo a2enmod ssl
+sudo a2ensite default-ssl
+sudo systemctl reload apache2
+sudo touch /etc/apache2/conf-available/demo.conf
+cd /opt/1C/v8.3/x86_64/
+./webinst -apache24 -wsdir demo -dir '/var/www/shrm' -connstr 'File=""/home/user/InfoBase/"";' -confPath /etc/apache2/conf-available/demo.conf
+#sudo /opt/1C/v8.3/x86_64/1cestart
