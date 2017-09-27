@@ -42,6 +42,8 @@ sudo apt install apache2 -y
 sudo usermod -a -G grp1cv8 www-data
 sudo usermod -a -G user www-data
 sudo usermod -a -G www-data user
+sudo mkdir -p /home/user/InfoBase
+
 sudo mkdir -p /opt/1C_bases
 sudo chmod -R u=rw,g=rw,o=r,a+X /opt/1C_bases
 sudo mkdir -p /var/www/shrm
