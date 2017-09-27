@@ -1,17 +1,17 @@
 # установка 1с
 mkdir -p /tmp/1ctmp
 cd /tmp/1ctmp
-sudo apt install -y unixodbc libgsf-1-114
+sudo apt install -y unixodbc libgsf-1-114 libglib2.0
 #ubuntu
-#sudo apt install ttf-mscorefonts-installer -y
+sudo apt install ttf-mscorefonts-installer -y
 #debian
 #wget  http://ftp.ru.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
-sudo  apt install -y xfonts-utils cabextract
+#sudo  apt install -y xfonts-utils cabextract
 #sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
 # фонты от Etersoft
 #ubuntu
-cp /home/user/test/fonts-ttf-ms_1.0-eter4ubuntu_all.deb /tmp/1ctmp
-sudo dpkg -i fonts-ttf-ms_1.0-eter4ubuntu_all.deb
+#cp /home/user/test/fonts-ttf-ms_1.0-eter4ubuntu_all.deb /tmp/1ctmp
+#sudo dpkg -i fonts-ttf-ms_1.0-eter4ubuntu_all.deb
 sudo apt-get install -f -y
 #debian
 #cp /home/user/test/fonts-ttf-ms_1.0-eter4debian_all.deb /tmp/1ctmp
@@ -38,10 +38,10 @@ sudo service haspd start
 #sudo service haspd status
 #sudo shutdown -r now
 # Установка Apache 2.4
-sudo apt install apache2
+sudo apt install apache2 -y
 sudo usermod -a -G grp1cv8 www-data
 sudo usermod -a -G user www-data
 sudo usermod -a -G www-data user
 sudo mkdir -p /opt/1C_bases
 sudo chmod -R u=rw,g=rw,o=r,a+X /opt/1C_bases
-sudo mkdir -p /var/www/hrm
+sudo mkdir -p /var/www/shrm
