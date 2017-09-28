@@ -48,6 +48,8 @@ sudo usermod -a -G grp1cv8 www-data
 sudo usermod -a -G user www-data
 sudo usermod -a -G www-data user
 sudo mkdir -p /home/user/InfoBase
+sudo chmod -R 777 /home/user/InfoBase
+sudo chmod -R g+sw /home/user/InfoBase
 #sudo chmod -R u=rw,g=rw,o=r,a+X /opt/1C_bases
 sudo mkdir -p /var/www/shrm
 #sudo chmod -R u=rw,g=rw,o=r,a+X /home/user/InfoBase
