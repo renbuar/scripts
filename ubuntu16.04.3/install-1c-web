@@ -50,11 +50,12 @@ sudo usermod -a -G www-data user
 sudo mkdir -p /home/user/InfoBase
 #sudo chmod -R u=rw,g=rw,o=r,a+X /opt/1C_bases
 sudo mkdir -p /var/www/shrm
+sudo chmod -R u=rw,g=rw,o=r,a+X /home/user/InfoBase
 #sudo systemctl enable apache2
-sudo a2enmod ssl
-sudo a2ensite default-ssl
-sudo systemctl reload apache2
-sudo touch /etc/apache2/conf-available/demo.conf
-cd /opt/1C/v8.3/x86_64/
-sudo ./webinst -apache24 -wsdir demo -dir '/var/www/shrm' -connstr 'File=""/home/user/InfoBase/"";' -confPath /etc/apache2/conf-available/demo.conf
+#sudo a2enmod ssl
+#sudo a2ensite default-ssl
+#sudo systemctl reload apache2
+#sudo touch /etc/apache2/conf-available/demo.conf
+#cd /opt/1C/v8.3/x86_64/
+#sudo ./webinst -apache24 -wsdir demo -dir '/var/www/shrm' -connstr 'File=""/home/user/InfoBase/"";' -confPath /etc/apache2/conf-available/demo.conf
 #sudo /opt/1C/v8.3/x86_64/1cestart
