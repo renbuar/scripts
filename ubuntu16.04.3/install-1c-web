@@ -50,7 +50,7 @@ sudo usermod -a -G www-data user
 sudo mkdir -p /home/user/InfoBase
 #sudo chmod -R u=rw,g=rw,o=r,a+X /opt/1C_bases
 sudo mkdir -p /var/www/shrm
-sudo chmod -R u=rw,g=rw,o=r,a+X /home/user/InfoBase
+#sudo chmod -R u=rw,g=rw,o=r,a+X /home/user/InfoBase
 #sudo systemctl enable apache2
 #sudo a2enmod ssl
 #sudo a2ensite default-ssl
