@@ -18,7 +18,7 @@ sudo apt-get install libstdc++6 -y
 #sudo apt-get install libstdc++5 -y
 sudo apt-get install ksh -y
 #sudo apt-get install rpm -y
-cp /home/user/Загрузки/v11.1_linuxx64_expc.tar.gz /tmp
+cp /home/user/test/v11.1_linuxx64_expc.tar.gz /tmp
 cd /tmp
 tar xvzf v11.1_linuxx64_expc.tar.gz
 cd expc
@@ -63,13 +63,13 @@ sudo apt install -y unixodbc libgsf-1-114
 #sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
 # фонты от Etersoft
 #ubuntu
-cp /home/user/Загрузки/fonts-ttf-ms_1.0-eter4ubuntu_all.deb /tmp/1ctmp
+cp /home/user/test/fonts-ttf-ms_1.0-eter4ubuntu_all.deb /tmp/1ctmp
 sudo dpkg -i fonts-ttf-ms_1.0-eter4ubuntu_all.deb
 #debian
 #cp /home/user/Загрузки/fonts-ttf-ms_1.0-eter4debian_all.deb /tmp/1ctmp
 #sudo dpkg -i fonts-ttf-ms_1.0-eter4debian_all.deb
-cp /home/user/Загрузки/server.deb64.tar.gz /tmp/1ctmp
-cp /home/user/Загрузки/client.deb64.tar.gz /tmp/1ctmp
+cp /home/user/test/server.deb64.tar.gz /tmp/1ctmp
+cp /home/user/test/client.deb64.tar.gz /tmp/1ctmp
 tar xvzf server.deb64.tar.gz
 tar xvzf client.deb64.tar.gz
 sudo dpkg -i 1c*.deb
@@ -81,10 +81,11 @@ sudo usermod -aG db2iadm1 usr1cv8
 sudo sh -c "echo '. /home/db2inst1/sqllib/db2profile' >> /home/usr1cv8/.profile"
 sudo service srv1cv83 start
 #sudo service srv1cv83 status
+sudo  apt install -y libc6-i386
 mkdir /tmp/hasp
 cd /tmp/hasp
-wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd-modules_7.60-eter1debian_amd64.deb
 wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd_7.60-eter1debian_amd64.deb
+wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd-modules_7.60-eter1debian_amd64.deb
 sudo dpkg -i *.deb
 sudo apt-get install -f -y
 sudo service haspd start
