@@ -107,5 +107,6 @@ cp /home/user/test/haspd-modules_7.60-eter1debian_amd64.deb /tmp/hasp
 sudo dpkg -i *.deb
 sudo apt-get install -f -y
 sudo service haspd start
+sudo su db2inst1 -c '. /home/db2inst1/sqllib/db2profile;/home/db2inst1/sqllib/adm/db2stop'
 #sudo service haspd status
 #sudo shutdown -r now
