@@ -42,7 +42,22 @@ exit 0
 EOF
 sudo cp /tmp/rc.local /etc/
 sudo chmod +x /etc/rc.local
+#sudo systemctl daemon-reload
+# скрипт выключения db2
+cd /tmp
+cat > db2exit.service <<EOF
+[Unit]
+Description=db2stop
+[Service]
+ExecStop=/bin/su db2inst1 -c '. /home/db2inst1/sqllib/db2profile;/home/db2inst1/sqllib/adm/db2stop'
+Type=oneshot
+RemainAfterExit=yes
+[Install]
+WantedBy=multi-user.target reboot.target poweroff.target
+EOF
+sudo cp db2exit.service /lib/systemd/system/
 sudo systemctl daemon-reload
+sudo systemctl enable db2exit.service
 #ps -eaf|grep -i db2sysc
 #sudo -u db2inst1 /home/db2inst1/sqllib/adm/db2start
 sudo su db2inst1 -c '. /home/db2inst1/sqllib/db2profile;/home/db2inst1/sqllib/adm/db2start'
