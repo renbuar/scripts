@@ -69,17 +69,18 @@ sudo  ./db2fm -i db2inst1 -f on
 # установка 1с
 mkdir -p /tmp/1ctmp
 cd /tmp/1ctmp
-sudo apt install -y unixodbc libgsf-1-114
+sudo apt install -y unixodbc libgsf-1-114 libglib2.0
 #ubuntu
 #sudo apt install ttf-mscorefonts-installer -y
 #debian
 #wget  http://ftp.ru.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
-#sudo  apt install -y xfonts-utils cabextract
+sudo  apt install -y xfonts-utils cabextract
 #sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
 # фонты от Etersoft
 #ubuntu
 cp /home/user/test/fonts-ttf-ms_1.0-eter4ubuntu_all.deb /tmp/1ctmp
 sudo dpkg -i fonts-ttf-ms_1.0-eter4ubuntu_all.deb
+sudo apt -f -y install
 #debian
 #cp /home/user/Загрузки/fonts-ttf-ms_1.0-eter4debian_all.deb /tmp/1ctmp
 #sudo dpkg -i fonts-ttf-ms_1.0-eter4debian_all.deb
@@ -99,8 +100,10 @@ sudo service srv1cv83 start
 sudo  apt install -y libc6-i386
 mkdir /tmp/hasp
 cd /tmp/hasp
-wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd_7.60-eter1debian_amd64.deb
-wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd-modules_7.60-eter1debian_amd64.deb
+cp /home/user/test/haspd_7.60-eter1debian_amd64.deb /tmp/hasp
+cp /home/user/test/haspd-modules_7.60-eter1debian_amd64.deb /tmp/hasp
+#wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd_7.60-eter1debian_amd64.deb
+#wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/8/haspd-modules_7.60-eter1debian_amd64.deb
 sudo dpkg -i *.deb
 sudo apt-get install -f -y
 sudo service haspd start
