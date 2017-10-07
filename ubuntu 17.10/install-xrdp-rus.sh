@@ -28,7 +28,8 @@ echo "-------------------------------------------"
 git clone git://github.com/neutrinolabs/xrdp
 cd /tmp/xrdp
 ./bootstrap
-./configure --enable-fuse --enable-mp3lame --enable-pixman --enable-sound --disable-ipv6
+#./configure --enable-fuse --enable-mp3lame --enable-pixman --enable-sound --disable-ipv6
+./configure --enable-fuse --enable-pixman --disable-ipv6
 make
 sudo make install
 sudo ln -s /usr/local/sbin/xrdp{,-sesman} /usr/sbin
